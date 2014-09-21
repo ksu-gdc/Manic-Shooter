@@ -18,6 +18,10 @@ namespace Manic_Shooter
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 100;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 100;
+
             Content.RootDirectory = "Content";
         }
 
@@ -84,7 +88,6 @@ namespace Manic_Shooter
             spriteBatch.Begin();
 
             fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
-
             spriteBatch.End();
 
             base.Draw(gameTime);
