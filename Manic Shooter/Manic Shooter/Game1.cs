@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TextPackage;
+using Manic_Shooter.Classes;
 
 namespace Manic_Shooter
 {
@@ -13,6 +14,11 @@ namespace Manic_Shooter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         FontRenderer fontRenderer;
+        ResourceManager resourceManager;
+
+        DefaultPlayer player1;
+        DefaultEnemy enemy1;
+        DefaultProjectile projectile1;
 
         public Game1()
             : base()
@@ -34,7 +40,7 @@ namespace Manic_Shooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            resourceManager = new ResourceManager();
             base.Initialize();
         }
 
@@ -48,6 +54,18 @@ namespace Manic_Shooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             fontRenderer = new FontRenderer(Content, "Times New Roman");
+            player1 = new DefaultPlayer(Content.Load<Texture2D>("Player_placeholder.png"), new Vector2(30, 30));
+            enemy1 = new DefaultEnemy(Content.Load<Texture2D>("Enemy_placeholder.png"), new Vector2(100, 100), 10);
+            projectile1 = new DefaultProjectile(Content.Load<Texture2D>("Projectile_placeholder.png"), new Vector2(200, 200), 10);
+
+            resourceManager.AddPlayer(player1);
+            resourceManager.AddEnemy(enemy1);
+            resourceManager.AddProjectile(projectile1);
+
+            player1.ScaleSize((decimal)0.5);
+            enemy1.ScaleSize((decimal)0.5);
+            projectile1.ScaleSize((decimal)0.5);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,10 +89,11 @@ namespace Manic_Shooter
                 Exit();
 
             // TODO: Add your update logic here
+            resourceManager.Update(gameTime);
 
             base.Update(gameTime);
         }
-
+        bool temp = false;
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -84,10 +103,12 @@ namespace Manic_Shooter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            
             spriteBatch.Begin();
 
             fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
+            resourceManager.RenderSprites(spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
