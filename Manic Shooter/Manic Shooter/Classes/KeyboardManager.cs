@@ -79,7 +79,7 @@ namespace Manic_Shooter.Classes
         {
             MoveLeft = 0,
             MoveRight = 1,
-            Moveup = 2,
+            MoveUp = 2,
             MoveDown = 3,
             Shoot = 4
         }
@@ -114,14 +114,14 @@ namespace Manic_Shooter.Classes
         ///  Gamekey gets pressed. Accessed through the
         ///  GameKeyPressed method.
         /// </summary>
-        private event KeyboardEvent[] _gameKeyPressed;
+        private KeyboardEvent[] _gameKeyPressed;
 
         /// <summary>
         /// A list of Keyboard Events that get called when a
         ///  Gamekey gets released. Accessed through the
         ///  GameKeyReleased method.
         /// </summary>
-        private event KeyboardEvent[] _gameKeyReleased;
+        private KeyboardEvent[] _gameKeyReleased;
 
         /// <summary>
         /// A list of mappings of keyboard keys to GameKeys.
@@ -239,21 +239,39 @@ namespace Manic_Shooter.Classes
         }
 
         /// <summary>
-        /// Used to retrieve the GameKeyReleased event for the given GameKey
+        /// Used to add an event to the GameKeyPressed
         /// </summary>
         /// <param name="key">The selected GameKey</param>
-        public KeyboardEvent GameKeyPressed(GameKeys key)
+        public void AddGameKeyPressed(GameKeys key, KeyboardEvent evt)
         {
-            return _gameKeyPressed[(int)key];
+            _gameKeyPressed[(int)key] += evt;
         }
 
         /// <summary>
-        /// Used to retrieve the GameKeyReleased event for the given GameKey
+        /// Used to remove an event from the GameKeyPressed
         /// </summary>
         /// <param name="key">The selected GameKey</param>
-        public KeyboardEvent GameKeyReleased(GameKeys key)
+        public void RemoveGameKeyPressed(GameKeys key, KeyboardEvent evt)
         {
-            return _gameKeyReleased[(int)key];
+            _gameKeyPressed[(int)key] -= evt;
+        }
+
+        /// <summary>
+        /// Used to add an event to the GameKeyReleased
+        /// </summary>
+        /// <param name="key">The selected GameKey</param>
+        public void AddGameKeyReleased(GameKeys key, KeyboardEvent evt)
+        {
+            _gameKeyReleased[(int)key] += evt;
+        }
+
+        /// <summary>
+        /// Used to remove an event from the GameKeyReleased
+        /// </summary>
+        /// <param name="key">The selected GameKey</param>
+        public void RemoveGameKeyReleased(GameKeys key, KeyboardEvent evt)
+        {
+            _gameKeyReleased[(int)key] -= evt;
         }
 
         /// <summary>
