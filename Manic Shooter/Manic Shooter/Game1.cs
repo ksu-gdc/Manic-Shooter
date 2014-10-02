@@ -58,9 +58,14 @@ namespace Manic_Shooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             fontRenderer = new FontRenderer(Content, "Times New Roman");
-            player1 = new DefaultPlayer(Content.Load<Texture2D>("Player_placeholder.png"), new Vector2(30, 30));
-            enemy1 = new DefaultEnemy(Content.Load<Texture2D>("Enemy_placeholder.png"), new Vector2(100, 100), 10);
-            projectile1 = new DefaultProjectile(Content.Load<Texture2D>("Projectile_placeholder.png"), new Vector2(200, 200), 10);
+
+            TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("Player_placeholder.png"));
+            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("Enemy_placeholder.png"));
+            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("Projectile_placeholder.png"));
+
+            player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(30, 30));
+            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(100, 100), 10);
+            projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 10);
 
             ResourceManager.Instance.AddPlayer(player1);
             ResourceManager.Instance.AddEnemy(enemy1);

@@ -14,11 +14,11 @@ namespace Manic_Shooter.Classes
 
         private bool _isPlayerProjectile;
 
-        public DefaultProjectile(Texture2D texture, Vector2 position, int damage)
+        public DefaultProjectile(Texture2D texture, Vector2 position, Vector2 velocity, int damage)
             : base(texture, position)
         {
             this.Damage = damage;
-            IsActive = false;
+            this.Velocity = velocity;
         }
 
         public int GetDamage()
@@ -31,17 +31,9 @@ namespace Manic_Shooter.Classes
             return _isPlayerProjectile;
         }
 
-        public virtual void Spawn(Vector2 position, Vector2 velocity, bool isPlayerProjectile)
+        public override void Update(GameTime gameTime)
         {
-            this.Position = position;
-            this.Velocity = velocity;
-
-            _isPlayerProjectile = isPlayerProjectile;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            this.Position += this.Velocity;
+            this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
 
             //Do hit detection here, or en masse?
 

@@ -43,8 +43,7 @@ namespace Manic_Shooter.Classes
         ///  
         ///       ...   
         ///       
-        ///       KeyboardManager.KeyboardEvent downPressed = KeyboardManager.Instance.GameKeyPressed(KeyboardManager.GameKeys.MoveDown);
-        ///       downPressed += new KeyboardManager.KeyboardEvent(gameKey_moveDownPressed);
+                  //KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.MoveDown, gameKey_moveDownPressed);
         ///       
         ///       ...
         ///       

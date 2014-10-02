@@ -124,8 +124,8 @@ namespace Manic_Shooter
         {
             if (projectileList.Exists(x => x.IsActive == false))
             {
-                IProjectile projectileToReuse = projectileList.Find(x => x.IsActive == false);
-                projectileToReuse = newProjectile;
+                int index = projectileList.FindIndex(x => x.IsActive == false);
+                projectileList[index] = newProjectile;
             }
             else
                 projectileList.Add(newProjectile);
@@ -243,17 +243,20 @@ namespace Manic_Shooter
         {
             foreach (IPlayer p in playerList)
             {
-                p.Update(gameTime);
+                if(p.IsActive)
+                    p.Update(gameTime);
             }
 
             foreach (IProjectile p in projectileList)
             {
-                p.Update(gameTime);
+                if (p.IsActive)
+                    p.Update(gameTime);
             }
 
             foreach (IEnemy e in enemyList)
             {
-                e.Update(gameTime);
+                if (e.IsActive)
+                    e.Update(gameTime);
             }
         }
 
