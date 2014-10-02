@@ -99,7 +99,7 @@ namespace Manic_Shooter
 
             base.Update(gameTime);
         }
-        bool temp = false;
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
