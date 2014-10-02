@@ -98,6 +98,8 @@ namespace Manic_Shooter.Classes
         {
             //DefaultProjectile proj = new DefaultProjectile(Content.Load<Texture2D>("Projectile_placeholder.png"), new Vector2(200, 200), 10);
             //ResourceManager.Instance.AddProjectile(
+            DefaultProjectile defProj = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), this.Position, new Vector2(0, -120), 10);
+            ResourceManager.Instance.AddProjectile(defProj);
         }
 
         public void SetVelocity(Vector2 newVelocity)
