@@ -20,7 +20,6 @@ namespace Manic_Shooter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         FontRenderer fontRenderer;
-        ResourceManager resourceManager;
 
         DefaultPlayer player1;
         DefaultEnemy enemy1;
@@ -46,7 +45,6 @@ namespace Manic_Shooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            resourceManager = new ResourceManager();
             base.Initialize();
         }
 
@@ -64,9 +62,9 @@ namespace Manic_Shooter
             enemy1 = new DefaultEnemy(Content.Load<Texture2D>("Enemy_placeholder.png"), new Vector2(100, 100), 10);
             projectile1 = new DefaultProjectile(Content.Load<Texture2D>("Projectile_placeholder.png"), new Vector2(200, 200), 10);
 
-            resourceManager.AddPlayer(player1);
-            resourceManager.AddEnemy(enemy1);
-            resourceManager.AddProjectile(projectile1);
+            ResourceManager.Instance.AddPlayer(player1);
+            ResourceManager.Instance.AddEnemy(enemy1);
+            ResourceManager.Instance.AddProjectile(projectile1);
 
             player1.ScaleSize((decimal)0.5);
             enemy1.ScaleSize((decimal)0.5);
@@ -94,8 +92,10 @@ namespace Manic_Shooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            KeyboardManager.Instance.Update(gameTime);
+
             // TODO: Add your update logic here
-            resourceManager.Update(gameTime);
+            ResourceManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -113,7 +113,7 @@ namespace Manic_Shooter
             spriteBatch.Begin();
 
             fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
-            resourceManager.RenderSprites(spriteBatch);
+            ResourceManager.Instance.RenderSprites(spriteBatch);
 
             spriteBatch.End();
 

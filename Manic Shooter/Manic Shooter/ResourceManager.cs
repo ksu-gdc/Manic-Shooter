@@ -14,6 +14,30 @@ namespace Manic_Shooter
         #region List fields and Properties
 
         /// <summary>
+        /// Singleton class holder. I have a thing for
+        ///  singletons, unfortunately.
+        /// </summary>
+        private static ResourceManager _instance = null;
+
+
+        /// <summary>
+        /// Singleton access to the ResourceManager class. Allows any
+        ///  object to acces the same ResourceManager through ResourceManager.Instance
+        /// </summary>
+        public static ResourceManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ResourceManager();
+                }
+
+                return _instance;
+            }
+        }
+
+        /// <summary>
         /// A list of all players in the game, will likely be just 1 but it doesn't hurt too much
         /// in this case to keep the option around.
         /// </summary>
@@ -233,7 +257,7 @@ namespace Manic_Shooter
             }
         }
 
-        public ResourceManager()
+        private ResourceManager()
         {
             playerList = new List<IPlayer>();
             enemyList = new List<IEnemy>();

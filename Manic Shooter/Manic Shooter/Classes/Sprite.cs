@@ -117,5 +117,19 @@ namespace Manic_Shooter.Classes
             hitbox.Width =(int)(hitbox.Width * scale);
             hitbox.Height = (int)(hitbox.Height * scale);
         }
+
+        /// <summary>
+        /// Used to determine if the sprite is offscreen (used for de-activation)
+        /// </summary>
+        public bool IsOffScreen()
+        {
+            if (hitbox.X > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width ||
+                hitbox.X + hitbox.Width < 0 ||
+                 hitbox.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height ||
+                  hitbox.Y + hitbox.Height < 0)
+                return true;
+            
+            return false;
+        }
     }
 }

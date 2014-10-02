@@ -38,10 +38,12 @@
     <Compile Include="Classes\DefaultEnemy.cs" />
     <Compile Include="Classes\DefaultPlayer.cs" />
     <Compile Include="Classes\DefaultProjectile.cs" />
+    <Compile Include="Classes\KeyboardManager.cs" />
     <Compile Include="Classes\Sprite.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Interfaces\IEnemy.cs" />
+    <Compile Include="Interfaces\IInputManager.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IProjectile.cs" />
     <Compile Include="Interfaces\IRenderable.cs" />
