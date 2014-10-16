@@ -25,6 +25,10 @@ namespace Manic_Shooter
         DefaultEnemy enemy1;
         DefaultProjectile projectile1;
 
+        enum gameStates { Menu, Play, Pause, GameOver };
+
+        private gameStates GameState = gameStates.Menu;
+
         public Game1()
             : base()
         {
