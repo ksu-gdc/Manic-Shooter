@@ -10,8 +10,8 @@ namespace Manic_Shooter.Classes
 {
     class Sprite:IRenderable,ISprite
     {
-        private Vector2 centerPosition;
-        private Rectangle hitbox;
+        protected Vector2 centerPosition;
+        protected Rectangle hitbox;
 
         /// <summary>
         /// The current texture to be rendered
@@ -21,17 +21,7 @@ namespace Manic_Shooter.Classes
         /// <summary>
         /// The position of the center of the sprite
         /// </summary>
-        public Vector2 Position
-        {
-            get { return centerPosition; }
-            set
-            {
-                centerPosition = value;
-                hitbox.X = (int)value.X;
-                hitbox.Y = (int)value.Y;
-                hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
-            }
-        }
+        public Vector2 Position { get { return centerPosition; } }
 
         /// <summary>
         /// The hitbox of the sprite
@@ -68,7 +58,8 @@ namespace Manic_Shooter.Classes
         public Sprite(Texture2D texture, Vector2 position, int health = 1)
         {
             this.Texture = texture;
-            this.Position = position;
+            centerPosition = new Vector2();
+            this.MoveTo(position.X, position.Y);
             this.Health = health;
             this.IsActive = true;
             this.Visible = true;
@@ -119,17 +110,69 @@ namespace Manic_Shooter.Classes
         }
 
         /// <summary>
+        /// Applies the current velocity to the sprite given the time elapsed since the last
+        /// update call. 
+        /// </summary>
+        /// <param name="elapsedTime">Time elapsed since the last update</param>
+        public void ApplyVelocity(TimeSpan elapsedTime)
+        {
+            float deltaX = this.Velocity.X * (float)elapsedTime.TotalSeconds;
+            float deltaY = this.Velocity.Y * (float)elapsedTime.TotalSeconds;
+
+            this.MoveBy(deltaX, deltaY);
+        }
+
+        /// <summary>
         /// Used to determine if the sprite is offscreen (used for de-activation)
         /// </summary>
         public bool IsOffScreen()
         {
-            if (hitbox.X > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width ||
-                hitbox.X + hitbox.Width < 0 ||
-                 hitbox.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height ||
-                  hitbox.Y + hitbox.Height < 0)
-                return true;
-            
-            return false;
+            return 
+            (
+                hitbox.Left > ManicShooter.ScreenSize.Width || 
+                hitbox.Right < ManicShooter.ScreenSize.Top ||
+                hitbox.Top > ManicShooter.ScreenSize.Bottom || 
+                hitbox.Bottom < ManicShooter.ScreenSize.Top
+            );
+        }
+
+        protected void MoveTo(float x, float y)
+        {
+            centerPosition.X = x;
+            centerPosition.Y = y;
+            hitbox.X = (int)centerPosition.X;
+            hitbox.Y = (int)centerPosition.Y;
+            hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
+        }
+
+        protected void MoveTo(Vector2 position)
+        {
+            this.MoveTo(position.X, position.Y);
+        }
+
+        protected void MoveBy(float deltaX, float deltaY)
+        {
+            centerPosition.X += deltaX;
+            centerPosition.Y += deltaY;
+            hitbox.X = (int)centerPosition.X;
+            hitbox.Y = (int)centerPosition.Y;
+            hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
+        }
+
+        protected void MoveBy(Vector2 deltaVector)
+        {
+            this.MoveBy(deltaVector.X, deltaVector.Y);
+        }
+
+        protected void SetVelocity(Vector2 newVelocity)
+        {
+            this.Velocity = newVelocity;
+        }
+
+        protected void SetVelocity(Vector2 destination, int speed)
+        {
+            destination.Normalize();
+            this.SetVelocity(speed * destination);
         }
     }
 }

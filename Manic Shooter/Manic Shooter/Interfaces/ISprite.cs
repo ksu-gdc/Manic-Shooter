@@ -17,7 +17,7 @@ namespace Manic_Shooter.Interfaces
         /// <summary>
         /// The position of the center of the sprite
         /// </summary>
-        Vector2 Position { get; set; }
+        Vector2 Position { get; }
 
         /// <summary>
         /// The hitbox of the sprite
@@ -51,5 +51,6 @@ namespace Manic_Shooter.Interfaces
 
         void SetSize(Vector2 newSize);
         void ScaleSize(decimal scale);
+        void ApplyVelocity(TimeSpan elapsedTime);
     }
 }

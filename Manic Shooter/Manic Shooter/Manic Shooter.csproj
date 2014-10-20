@@ -39,6 +39,7 @@
     <Compile Include="Classes\DefaultPlayer.cs" />
     <Compile Include="Classes\DefaultProjectile.cs" />
     <Compile Include="Classes\KeyboardManager.cs" />
+    <Compile Include="Classes\PelletGun.cs" />
     <Compile Include="Classes\Sprite.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="Interfaces\IProjectile.cs" />
     <Compile Include="Interfaces\IRenderable.cs" />
     <Compile Include="Interfaces\ISprite.cs" />
+    <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManager.cs" />

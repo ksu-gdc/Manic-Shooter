@@ -19,6 +19,7 @@ namespace Manic_Shooter.Classes
         {
             this.Damage = damage;
             this.Velocity = velocity;
+            this.ScaleSize(0.25M);
         }
 
         public int GetDamage()
@@ -33,10 +34,16 @@ namespace Manic_Shooter.Classes
 
         public override void Update(GameTime gameTime)
         {
-            this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
+            Vector2 deltaV = this.Velocity * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.MoveBy(deltaV.X, deltaV.Y);
+
+            //We can also use gameTime.ElapsedGameTime.TotalSeconds to achieve the same value without the division
+            //this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
 
             //Do hit detection here, or en masse?
 
+            //RESPONSE: It would probably be best to do it en masse since we could do some filtering for
+            //efficiency ~Nick Boen
 
             //Detect if it is off screen and de-activate it
             if (IsOffScreen())

@@ -102,11 +102,6 @@ namespace Manic_Shooter.Classes
             ResourceManager.Instance.AddProjectile(defProj);
         }
 
-        public void SetVelocity(Vector2 newVelocity)
-        {
-            this.Velocity = newVelocity;
-        }
-
         public void AddVelocity(Vector2 appliedVelocity, uint maxSpeed = 200000)
         {
             Vector2 currentVelocity = this.Velocity;
@@ -125,9 +120,20 @@ namespace Manic_Shooter.Classes
             throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
+            Vector2 deltaV = this.Velocity * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.MoveBy(deltaV.X, deltaV.Y);
+            
+            //We can also use gameTime.ElapsedGameTime.TotalSeconds to achieve the same value without the division
+            //this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
+        }
+
+        public new void SetVelocity(Vector2 newVelocity)
+        {
+            //HACK: Need to consider removing this from IPlayer as 
+            //well as possibly adding a _maxspeed instead of fixed speed's in either direction
+            this.SetVelocity(newVelocity,(int) HORIZ_SPEED);
         }
     }
 }

@@ -6,8 +6,20 @@ using Microsoft.Xna.Framework;
 
 namespace Manic_Shooter.Interfaces
 {
+    public enum EnemyState
+    {
+        Entering,
+        Attacking,
+        Leaving
+    }
+
     interface IEnemy:ISprite
     {
+        EnemyState State { get; }
 
+        /// <summary>
+        /// Method for firing a shot from an IWeapon
+        /// </summary>
+        void Fire(TimeSpan elapsedTime);
     }
 }

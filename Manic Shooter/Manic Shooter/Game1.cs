@@ -15,8 +15,10 @@ namespace Manic_Shooter
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class ManicShooter : Game
     {
+        public static Rectangle ScreenSize;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         FontRenderer fontRenderer;
@@ -25,7 +27,7 @@ namespace Manic_Shooter
         DefaultEnemy enemy1;
         DefaultProjectile projectile1;
 
-        public Game1()
+        public ManicShooter()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,6 +35,8 @@ namespace Manic_Shooter
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 100;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 100;
 
+            ScreenSize = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            
             Content.RootDirectory = "Content";
         }
 
@@ -64,7 +68,7 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("Projectile_placeholder.png"));
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(30, 30));
-            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(100, 100), 10);
+            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 10);
             projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 10);
 
             ResourceManager.Instance.AddPlayer(player1);
