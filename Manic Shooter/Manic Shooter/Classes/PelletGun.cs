@@ -85,7 +85,7 @@ namespace Manic_Shooter.Classes
             Debug.WriteLine("Reference Position = " + _referencePosition.ToString());
             //Otherwise we can go ahead and Fire by creating a new projectile
             ResourceManager.Instance.AddProjectile(
-                new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), Vector2.Add(_referencePosition, _muzzleOffset), _firingVelocity, 1)
+                new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), Vector2.Add(_referencePosition, _muzzleOffset), _firingVelocity, 1, false)
                 );
 
             //And setting the cool down timer

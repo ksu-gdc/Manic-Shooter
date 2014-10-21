@@ -25,6 +25,11 @@ namespace Manic_Shooter.Interfaces
         Rectangle HitBox { get; set; }
 
         /// <summary>
+        /// The hitbox of the sprite
+        /// </summary>
+        Rectangle TextureBox { get; set; }
+
+        /// <summary>
         /// The current 2-component vector of the velocity
         /// </summary>
         Vector2 Velocity { get; set; }
@@ -52,5 +57,7 @@ namespace Manic_Shooter.Interfaces
         void SetSize(Vector2 newSize);
         void ScaleSize(decimal scale);
         void ApplyVelocity(TimeSpan elapsedTime);
+
+        void Destroy();
     }
 }

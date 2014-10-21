@@ -10,8 +10,13 @@ namespace Manic_Shooter.Classes
 {
     class Sprite:IRenderable,ISprite
     {
+        private const float HURT_FLASH_SPEED = 10;
+
         protected Vector2 centerPosition;
+        protected Rectangle texturebox;
         protected Rectangle hitbox;
+
+        protected bool _hurtFlashing = false;
 
         /// <summary>
         /// The current texture to be rendered
@@ -24,9 +29,14 @@ namespace Manic_Shooter.Classes
         public Vector2 Position { get { return centerPosition; } }
 
         /// <summary>
+        /// The texturebox of the sprite
+        /// </summary>
+        public Rectangle TextureBox { get{return texturebox;} set{texturebox = value;} }
+
+        /// <summary>
         /// The hitbox of the sprite
         /// </summary>
-        public Rectangle HitBox { get{return hitbox;} set{hitbox = value;} }
+        public Rectangle HitBox { get { return hitbox; } set { hitbox = value; } }
 
         /// <summary>
         /// The current 2-component vector of the velocity
@@ -47,12 +57,26 @@ namespace Manic_Shooter.Classes
         public bool IsActive { get; set; }
 
         /// <summary>
+        /// Tint coloring of the specific sprite. Default is white
+        /// </summary>
+        protected Color SpriteTint { get; set; }
+
+        /// <summary>
         /// Renders the Sprite with it's current texture
         /// </summary>
         /// <param name="spriteBatch">The spritebatch to use for rendering</param>
         public void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.HitBox, Color.White);
+            spriteBatch.Draw(this.Texture, this.TextureBox, SpriteTint);
+            
+            if (this._hurtFlashing)
+            {
+                this.SpriteTint = new Color((int)Math.Min(255, this.SpriteTint.R + HURT_FLASH_SPEED), (int)Math.Min(255, this.SpriteTint.G + HURT_FLASH_SPEED),
+                    (int)Math.Min(255, this.SpriteTint.B + HURT_FLASH_SPEED), this.SpriteTint.A);
+
+                if (this.SpriteTint.R == 255 && this.SpriteTint.G == 255 && this.SpriteTint.B == 255)
+                    this._hurtFlashing = false;
+            }
         }
 
         public Sprite(Texture2D texture, Vector2 position, int health = 1)
@@ -63,8 +87,10 @@ namespace Manic_Shooter.Classes
             this.Health = health;
             this.IsActive = true;
             this.Visible = true;
-            this.HitBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.HitBox.Offset((int)texture.Width / -2, (int)texture.Height / -2);
+            this.TextureBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            this.TextureBox.Offset((int)texture.Width / -2, (int)texture.Height / -2);
+            this.HitBox = this.TextureBox;
+            this.SpriteTint = Color.White;
         }
 
         /// <summary>
@@ -99,13 +125,22 @@ namespace Manic_Shooter.Classes
 
         public void SetSize(Vector2 newSize)
         {
-            hitbox.Width = (int)newSize.X;
-            hitbox.Height = (int)newSize.Y;
+            float horizRatio = newSize.X / texturebox.Width;
+            float vertRatio = newSize.Y / texturebox.Height;
+
+            texturebox.Width = (int)newSize.X;
+            texturebox.Height = (int)newSize.Y;
+
+            hitbox.Width = (int)Math.Round(hitbox.Width / horizRatio);
+            hitbox.Height = (int)Math.Round(hitbox.Height / vertRatio);
         }
 
         public void ScaleSize(decimal scale)
         {
-            hitbox.Width =(int)(hitbox.Width * scale);
+            texturebox.Width =(int)(texturebox.Width * scale);
+            texturebox.Height = (int)(texturebox.Height * scale);
+
+            hitbox.Width = (int)(hitbox.Width * scale);
             hitbox.Height = (int)(hitbox.Height * scale);
         }
 
@@ -129,10 +164,10 @@ namespace Manic_Shooter.Classes
         {
             return 
             (
-                hitbox.Left > ManicShooter.ScreenSize.Width || 
-                hitbox.Right < ManicShooter.ScreenSize.Top ||
-                hitbox.Top > ManicShooter.ScreenSize.Bottom || 
-                hitbox.Bottom < ManicShooter.ScreenSize.Top
+                texturebox.Left > ManicShooter.ScreenSize.Width ||
+                texturebox.Right < ManicShooter.ScreenSize.Top ||
+                texturebox.Top > ManicShooter.ScreenSize.Bottom ||
+                texturebox.Bottom < ManicShooter.ScreenSize.Top
             );
         }
 
@@ -143,6 +178,9 @@ namespace Manic_Shooter.Classes
             hitbox.X = (int)centerPosition.X;
             hitbox.Y = (int)centerPosition.Y;
             hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
+            texturebox.X = (int)centerPosition.X;
+            texturebox.Y = (int)centerPosition.Y;
+            texturebox.Offset((int)texturebox.Width / -2, (int)texturebox.Height / -2);
         }
 
         protected void MoveTo(Vector2 position)
@@ -157,6 +195,9 @@ namespace Manic_Shooter.Classes
             hitbox.X = (int)centerPosition.X;
             hitbox.Y = (int)centerPosition.Y;
             hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
+            texturebox.X = (int)centerPosition.X;
+            texturebox.Y = (int)centerPosition.Y;
+            texturebox.Offset((int)texturebox.Width / -2, (int)texturebox.Height / -2);
         }
 
         protected void MoveBy(Vector2 deltaVector)
@@ -173,6 +214,15 @@ namespace Manic_Shooter.Classes
         {
             destination.Normalize();
             this.SetVelocity(speed * destination);
+        }
+
+        public virtual void Destroy()
+        {
+            //Here you'd put an animation for blowing up the sprite, but for now
+            // we're using no animation
+            this.Visible = false;
+            this.IsActive = false;
+
         }
     }
 }

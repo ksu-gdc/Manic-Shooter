@@ -63,13 +63,13 @@ namespace Manic_Shooter.Classes
             _weapons = new List<IWeapon>();
 
             //Top Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(-250, -250), 0.1d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(-250, -250), 0.3d));
             //Top Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(250, -250), 0.1d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(250, -250), 0.3d));
             //Bottom Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(-250, 250), 0.1d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(-250, 250), 0.3d));
             //Bottom Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(250, 250), 0.1d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(250, 250), 0.3d));
         }
         /// <summary>
         /// Updates this enemy instance

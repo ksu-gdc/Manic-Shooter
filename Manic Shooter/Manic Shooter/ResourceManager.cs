@@ -247,16 +247,77 @@ namespace Manic_Shooter
                     p.Update(gameTime);
             }
 
+            foreach (IEnemy e in enemyList)
+            {
+                if (e.IsActive)
+                    e.Update(gameTime);
+            }
+
             foreach (IProjectile p in projectileList)
             {
                 if (p.IsActive)
                     p.Update(gameTime);
             }
 
-            foreach (IEnemy e in enemyList)
+            CheckCollisions();
+
+        }
+
+        private void CheckCollisions()
+        {
+            //Check player/enemy collisions
+            foreach (IPlayer p in playerList)
             {
-                if (e.IsActive)
-                    e.Update(gameTime);
+                foreach (IEnemy e in enemyList)
+                {
+                    if (p.HitBox.Intersects(e.HitBox))
+                    {
+                        //kill player? kill enemy?
+
+                    }
+                }
+            }
+
+            foreach (IProjectile p in projectileList)
+            {
+                if (!p.IsActive) continue;
+
+                //Check bullet/player collisions
+                if (!p.IsPlayerProjectile())
+                {
+                    foreach (IPlayer pl in playerList)
+                    {
+                        if (!pl.IsActive) continue;
+
+                        if (p.HitBox.Intersects(pl.HitBox))
+                        {
+                            pl.Health -= p.GetDamage();
+                            pl.HitBy(p);
+
+                            if (pl.Health <= 0)
+                                pl.Destroy();
+
+                            p.Destroy();
+                        }
+                    }
+                }
+                else
+                {
+                    //Check bullet/enemy collisions
+                    foreach (IEnemy e in enemyList)
+                    {
+                        if (!e.IsActive) continue;
+
+                        if (p.HitBox.Intersects(e.HitBox))
+                        {
+                            e.Health -= p.GetDamage();
+                            if (e.Health <= 0)
+                                e.Destroy();
+
+                            p.Destroy();
+                        }
+                    }
+                }
             }
         }
 

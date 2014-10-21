@@ -12,24 +12,25 @@ namespace Manic_Shooter.Classes
     {
         public int Damage { get; private set; }
 
-        private bool _isPlayerProjectile;
+        private bool isPlayerProjectile;
 
-        public DefaultProjectile(Texture2D texture, Vector2 position, Vector2 velocity, int damage)
+        public DefaultProjectile(Texture2D texture, Vector2 position, Vector2 velocity, int damage, bool isPlayerProjectile = true)
             : base(texture, position)
         {
             this.Damage = damage;
             this.Velocity = velocity;
-            this.ScaleSize(0.25M);
+            this.ScaleSize(2M);
+            this.isPlayerProjectile = isPlayerProjectile;
         }
 
         public int GetDamage()
         {
-            throw new NotImplementedException();
+            return this.Damage;
         }
 
         public bool IsPlayerProjectile()
         {
-            return _isPlayerProjectile;
+            return isPlayerProjectile;
         }
 
         public override void Update(GameTime gameTime)

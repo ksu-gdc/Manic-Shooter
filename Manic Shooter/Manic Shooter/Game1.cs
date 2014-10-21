@@ -63,21 +63,21 @@ namespace Manic_Shooter
 
             fontRenderer = new FontRenderer(Content, "Times New Roman");
 
-            TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("Player_placeholder.png"));
-            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("Enemy_placeholder.png"));
-            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("Projectile_placeholder.png"));
+            TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
+            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
+            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(30, 30));
             enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 10);
-            projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 10);
+            projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
             ResourceManager.Instance.AddPlayer(player1);
             ResourceManager.Instance.AddEnemy(enemy1);
-            ResourceManager.Instance.AddProjectile(projectile1);
+            //ResourceManager.Instance.AddProjectile(projectile1);
 
             player1.ScaleSize((decimal)0.5);
-            enemy1.ScaleSize((decimal)0.5);
-            projectile1.ScaleSize((decimal)0.5);
+            enemy1.ScaleSize((decimal)2);
+            //projectile1.ScaleSize((decimal)0.5);
 
             // TODO: use this.Content to load your game content here
         }
