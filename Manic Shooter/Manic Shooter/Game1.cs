@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using TextPackage;
 using Manic_Shooter.Classes;
+using System.Timers;
 #endregion
 
 namespace Manic_Shooter
@@ -27,6 +28,8 @@ namespace Manic_Shooter
         DefaultEnemy enemy1;
         DefaultProjectile projectile1;
 
+        System.Timers.Timer demoEnemySpawnTimer;
+
         enum gameStates { Menu, Play, Pause, GameOver };
 
         private gameStates GameState = gameStates.Menu;
@@ -42,6 +45,17 @@ namespace Manic_Shooter
             ScreenSize = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             
             Content.RootDirectory = "Content";
+
+            demoEnemySpawnTimer = new Timer();
+            demoEnemySpawnTimer.Interval = 4000;
+            demoEnemySpawnTimer.Elapsed += new System.Timers.ElapsedEventHandler(demoEnemySpawnTimer_Elapsed);
+            demoEnemySpawnTimer.Start();
+        }
+
+        private void demoEnemySpawnTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            //spawn an enemy
+            ResourceManager.Instance.AddEnemy(new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3));
         }
 
         /// <summary>
@@ -72,15 +86,15 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(30, 30));
-            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 10);
-            projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
+            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3);
+            //projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
             ResourceManager.Instance.AddPlayer(player1);
             ResourceManager.Instance.AddEnemy(enemy1);
             //ResourceManager.Instance.AddProjectile(projectile1);
 
             player1.ScaleSize((decimal)0.5);
-            enemy1.ScaleSize((decimal)2);
+            //enemy1.ScaleSize((decimal)2);
             //projectile1.ScaleSize((decimal)0.5);
 
             // TODO: use this.Content to load your game content here
@@ -110,6 +124,10 @@ namespace Manic_Shooter
             // TODO: Add your update logic here
             ResourceManager.Instance.Update(gameTime);
 
+            //demo code
+            if (ResourceManager.Instance.ActivePlayerList.Count == 0)
+                demoEnemySpawnTimer.Stop();
+
             base.Update(gameTime);
         }
 
@@ -119,7 +137,7 @@ namespace Manic_Shooter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             

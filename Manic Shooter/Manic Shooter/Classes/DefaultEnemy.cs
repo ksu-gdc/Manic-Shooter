@@ -46,13 +46,13 @@ namespace Manic_Shooter.Classes
 
         private void InitializeDefaultEnemy(Vector2 position, Vector2 TargetEntryPoint)
         {
-            this.ScaleSize(0.25M);
+            this.ScaleSize(0.5M);
 
             _screenPasses = 0;
             _maxPasses = 3;
             this.Visible = true;
 
-            _maxSpeed = 200;
+            _maxSpeed = 150;
 
             _state = EnemyState.Entering;
 

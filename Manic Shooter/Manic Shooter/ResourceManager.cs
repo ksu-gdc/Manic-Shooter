@@ -94,8 +94,8 @@ namespace Manic_Shooter
 
             if (playerList.Exists(x => x.IsActive == false))
             {
-                IPlayer playerToReuse = playerList.Find(x => x.IsActive == false);
-                playerToReuse = newPlayer;
+                int index = playerList.FindIndex(x => x.IsActive == false);
+                playerList[index] = newPlayer;
             }
             else
                 playerList.Add(newPlayer);
@@ -109,8 +109,8 @@ namespace Manic_Shooter
         {
             if (enemyList.Exists(x => x.IsActive == false))
             {
-                IEnemy enemyToReuse = enemyList.Find(x => x.IsActive == false);
-                enemyToReuse = newEnemy;
+                int index = enemyList.FindIndex(x => x.IsActive == false);
+                enemyList[index] = newEnemy;
             }
             else
                 enemyList.Add(newEnemy);
