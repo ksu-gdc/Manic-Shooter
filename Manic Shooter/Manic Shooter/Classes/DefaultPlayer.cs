@@ -150,6 +150,12 @@ namespace Manic_Shooter.Classes
             this.DebugFlash();
         }
 
+        public override void Destroy()
+        {
+            base.Destroy();
+            this.EnableKeyboardEvents(false);
+        }
+
         private void DebugFlash()
         {
             //this.SpriteTint = new Color(255, this.SpriteTint.G, this.SpriteTint.B, this.SpriteTint.A);
