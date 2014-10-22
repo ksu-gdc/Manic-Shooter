@@ -85,7 +85,7 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
 
-            player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(30, 30));
+            player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3);
             //projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
@@ -143,7 +143,7 @@ namespace Manic_Shooter
             
             spriteBatch.Begin();
 
-            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
+            //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             spriteBatch.End();
