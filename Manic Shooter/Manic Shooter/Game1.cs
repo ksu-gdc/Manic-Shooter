@@ -28,8 +28,6 @@ namespace Manic_Shooter
         DefaultEnemy enemy1;
         DefaultProjectile projectile1;
 
-        System.Timers.Timer demoEnemySpawnTimer;
-
         enum gameStates { Menu, Play, Pause, GameOver };
 
         private gameStates GameState = gameStates.Menu;
@@ -45,14 +43,9 @@ namespace Manic_Shooter
             ScreenSize = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             
             Content.RootDirectory = "Content";
-
-            demoEnemySpawnTimer = new Timer();
-            demoEnemySpawnTimer.Interval = 4000;
-            demoEnemySpawnTimer.Elapsed += new System.Timers.ElapsedEventHandler(demoEnemySpawnTimer_Elapsed);
-            demoEnemySpawnTimer.Start();
         }
 
-        private void demoEnemySpawnTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void SpawnEnemy()
         {
             //spawn an enemy
             ResourceManager.Instance.AddEnemy(new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3));
@@ -119,14 +112,17 @@ namespace Manic_Shooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //demo code
+            if (!(ResourceManager.Instance.ActivePlayerList.Count == 0))
+            {
+                if(gameTime.TotalGameTime.TotalMilliseconds % 4000 <= 5) 
+                    SpawnEnemy();
+            }
+
             KeyboardManager.Instance.Update(gameTime);
 
             // TODO: Add your update logic here
             ResourceManager.Instance.Update(gameTime);
-
-            //demo code
-            if (ResourceManager.Instance.ActivePlayerList.Count == 0)
-                demoEnemySpawnTimer.Stop();
 
             base.Update(gameTime);
         }
@@ -143,7 +139,7 @@ namespace Manic_Shooter
             
             spriteBatch.Begin();
 
-            //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
+            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             spriteBatch.End();
