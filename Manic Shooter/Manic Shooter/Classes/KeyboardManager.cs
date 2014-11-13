@@ -80,7 +80,8 @@ namespace Manic_Shooter.Classes
             MoveRight = 1,
             MoveUp = 2,
             MoveDown = 3,
-            Shoot = 4
+            Shoot = 4,
+            Pause = 5
         }
 
         /// <summary>
@@ -93,14 +94,15 @@ namespace Manic_Shooter.Classes
             Keys.Right,
             Keys.Up,
             Keys.Down,
-            Keys.Space
+            Keys.Space,
+            Keys.Enter
         };
 
         /// <summary>
         /// A count of all GameKeys. Need to update this
         ///  when adding in a new GameKey!
         /// </summary>
-        public const int GameKeysCount = 5;
+        public const int GameKeysCount = 6;
 
         /// <summary>
         /// A Keyboard event. When a GameKey is pressed or released,

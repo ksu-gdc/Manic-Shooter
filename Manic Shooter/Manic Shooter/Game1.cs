@@ -28,9 +28,12 @@ namespace Manic_Shooter
         DefaultEnemy enemy1;
         DefaultProjectile projectile1;
 
-        enum gameStates { Menu, Play, Pause, GameOver };
+        bool isPaused = false;
+        GameTime inGameTotalTime;
 
-        private gameStates GameState = gameStates.Menu;
+        enum gameStates { Menu, Play, GameOver };
+
+        private gameStates GameState = gameStates.Play;
 
         public ManicShooter()
             : base()
@@ -43,6 +46,9 @@ namespace Manic_Shooter
             ScreenSize = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             
             Content.RootDirectory = "Content";
+            inGameTotalTime = new GameTime();
+
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.Pause, gameKey_pausePressed);
         }
 
         private void SpawnEnemy()
@@ -112,6 +118,31 @@ namespace Manic_Shooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            KeyboardManager.Instance.Update(gameTime);
+
+            switch (GameState)
+            {
+                case gameStates.Menu:
+                    UpdateMenu(gameTime);
+                    break;
+                case gameStates.Play:
+                    UpdatePlay(gameTime);
+                    break;
+                case gameStates.GameOver:
+                    UpdateGameOver(gameTime);
+                    break;
+            }
+
+            base.Update(gameTime);
+        }
+
+        private void UpdatePlay(GameTime gameTime)
+        {
+            if (isPaused)
+                return;
+
+            inGameTotalTime.ElapsedGameTime += gameTime.ElapsedGameTime;
+
             //demo code
             if (!(ResourceManager.Instance.ActivePlayerList.Count == 0))
             {
@@ -119,12 +150,20 @@ namespace Manic_Shooter
                     SpawnEnemy();
             }
 
-            KeyboardManager.Instance.Update(gameTime);
-
             // TODO: Add your update logic here
             ResourceManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void UpdateMenu(GameTime gameTime)
+        {
+
+        }
+
+        private void UpdateGameOver(GameTime gameTime)
+        {
+
         }
 
         /// <summary>
@@ -135,16 +174,85 @@ namespace Manic_Shooter
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
-            
-            spriteBatch.Begin();
-
-            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + gameTime.TotalGameTime.ToString());
-            ResourceManager.Instance.RenderSprites(spriteBatch);
-
-            spriteBatch.End();
+            switch(GameState)
+            {
+                case gameStates.Play:
+                    DrawPlay(gameTime);
+                    break;
+                case gameStates.Menu:
+                    DrawMenu(gameTime);
+                    break;
+                case gameStates.GameOver:
+                    DrawGameOver(gameTime);
+                    break;
+            }
 
             base.Draw(gameTime);
+        }
+
+        private void DrawPlay(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+
+            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
+            ResourceManager.Instance.RenderSprites(spriteBatch);
+
+            if(isPaused)
+                fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
+
+            spriteBatch.End();
+        }
+
+        private void DrawMenu(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+
+            spriteBatch.End();
+        }
+
+        private void DrawGameOver(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+
+            spriteBatch.End();
+        }
+
+        public void gameKey_pausePressed(Keys key)
+        {
+            if (GameState == gameStates.Play)
+                isPaused = !isPaused;
+            //This will create a bug where the timer updates bad times from unpause to pause
+        }
+
+        private void GameStateSwitched()
+        {
+            switch (GameState)
+            {
+                case gameStates.Play:
+                    InitPlayState();
+                    break;
+                case gameStates.Menu:
+                    InitMenuState();
+                    break;
+                case gameStates.GameOver:
+                    InitGameOverState();
+                    break;
+            }
+        }
+
+        private void InitPlayState()
+        {
+
+        }
+
+        private void InitMenuState()
+        {
+
+        }
+
+        private void InitGameOverState()
+        {
+
         }
     }
 }
