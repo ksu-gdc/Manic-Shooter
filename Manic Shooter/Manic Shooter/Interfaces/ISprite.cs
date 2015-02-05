@@ -19,10 +19,9 @@ namespace Manic_Shooter.Interfaces
         /// </summary>
         Vector2 Position { get; }
 
-        /// <summary>
-        /// The hitbox of the sprite
-        /// </summary>
-        Rectangle HitBox { get; set; }
+        Vector2 HitBoxCenter { get; }
+
+        float HitBoxRadius { get; set; }
 
         /// <summary>
         /// The hitbox of the sprite

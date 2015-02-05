@@ -23,12 +23,14 @@ namespace Manic_Shooter.Classes
             //Set up the keyboard movement/shooting events
             EnableKeyboardEvents(true);
 
-            int hitboxWidth = 3, hitboxHeight = 3;
+            int hitboxWidth = 11, hitboxHeight = 11;
             int hitboxX = this.TextureBox.X + (int)((float)(this.TextureBox.Width) / 2 - (float)(hitboxWidth) / 2);
-            int hitboxY = this.TextureBox.Y + (int)((float)(this.TextureBox.Height) / 2 - (float)(hitboxHeight) / 2);
-            this.HitBox = new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
+            int hitboxY = this.TextureBox.Y + (int)((float)(this.TextureBox.Height) / 2- (float)(hitboxHeight) / 2);
+            this.HitBoxRadius = 8;
+            this.HitBoxVertRatio = 0.4f;
 
             this.Health = 5;
+            _drawHitbox = true;
         }
 
         private void EnableKeyboardEvents(bool enabled)

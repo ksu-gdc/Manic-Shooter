@@ -33,6 +33,12 @@ namespace Manic_Shooter
 
         enum gameStates { Menu, Play, GameOver };
 
+        enum MenuStates { Main, About };
+
+        private MenuStates MenuState = MenuStates.Main;
+
+        private int MenuIndex = 0;
+
         private gameStates GameState = gameStates.Play;
 
         public ManicShooter()
@@ -83,6 +89,13 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
+
+
+            //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);
+            //hitboxTexture.SetData(new Color[] { Color.Red });
+
+            TextureManager.Instance.AddTexture("Hitbox", TextureManager.Instance.createCircleText(GraphicsDevice, 40, Color.Red));
+
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3);
@@ -207,6 +220,13 @@ namespace Manic_Shooter
         {
             spriteBatch.Begin();
 
+            fontRenderer.DrawText(spriteBatch, 100, 100, "Play Game");
+            fontRenderer.DrawText(spriteBatch, 100, 200, "About");
+            fontRenderer.DrawText(spriteBatch, 100, 300, "Quit");
+
+
+            fontRenderer.DrawText(spriteBatch, 80, 100 + 100 * MenuIndex, ">");
+
             spriteBatch.End();
         }
 
@@ -247,7 +267,9 @@ namespace Manic_Shooter
 
         private void InitMenuState()
         {
+            MenuState = MenuStates.Main;
 
+            MenuIndex = 0;
         }
 
         private void InitGameOverState()
