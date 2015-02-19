@@ -63,13 +63,13 @@ namespace Manic_Shooter.Classes
             _weapons = new List<IWeapon>();
 
             //Top Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(-250, -250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, -this.Height / 2), new Vector2(-250, -250), 0.3d));
             //Top Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, -this.HitBox.Height / 2), new Vector2(250, -250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, -this.Height / 2), new Vector2(250, -250), 0.3d));
             //Bottom Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(-250, 250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, this.Height / 2), new Vector2(-250, 250), 0.3d));
             //Bottom Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.HitBox.Width / 2, this.HitBox.Height / 2), new Vector2(250, 250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, this.Height / 2), new Vector2(250, 250), 0.3d));
         }
         /// <summary>
         /// Updates this enemy instance
@@ -126,7 +126,7 @@ namespace Manic_Shooter.Classes
         /// to because this method needs to be called multiple times as the enemy is updated</returns>
         public bool HorizontalPasses(TimeSpan elapsedTime)
         {
-            bool isOnEdge = HitBox.Right > ManicShooter.ScreenSize.Width || HitBox.Left < 0;
+            bool isOnEdge = TextureBox.Right > ManicShooter.ScreenSize.Width || TextureBox.Left < 0;
             if (_screenPasses < _maxPasses)
             {
                 //Enemy is still making passes
@@ -149,8 +149,8 @@ namespace Manic_Shooter.Classes
 
         public bool LeaveScreen(TimeSpan elapsedTime)
         {
-            Vector2 topLeftSafeSpot = new Vector2(-this.hitbox.Width, -this.hitbox.Height);
-            Vector2 topRightSafeSpot = new Vector2(ManicShooter.ScreenSize.Right + this.hitbox.Width, -this.hitbox.Height);
+            Vector2 topLeftSafeSpot = new Vector2(-this.Width, -this.Height);
+            Vector2 topRightSafeSpot = new Vector2(ManicShooter.ScreenSize.Right + this.Width, -this.Height);
 
             if (this.Position == topLeftSafeSpot || this.Position == topRightSafeSpot) return true;
 

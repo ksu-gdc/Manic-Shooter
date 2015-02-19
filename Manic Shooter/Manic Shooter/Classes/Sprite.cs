@@ -14,9 +14,13 @@ namespace Manic_Shooter.Classes
 
         protected Vector2 centerPosition;
         protected Rectangle texturebox;
-        protected Rectangle hitbox;
+        protected float hitboxRadius;
+        protected float hitboxHorizRatio;
+        protected float hitboxVertRatio;
 
         protected bool _hurtFlashing = false;
+
+        protected bool _drawHitbox = false;
 
         /// <summary>
         /// The current texture to be rendered
@@ -33,10 +37,31 @@ namespace Manic_Shooter.Classes
         /// </summary>
         public Rectangle TextureBox { get{return texturebox;} set{texturebox = value;} }
 
+        public float Width { get { return (float)this.TextureBox.Width; } }
+
+        public float Height { get { return (float)this.TextureBox.Height; } }
+
         /// <summary>
-        /// The hitbox of the sprite
+        /// The center of the hitbox for the sprite
         /// </summary>
-        public Rectangle HitBox { get { return hitbox; } set { hitbox = value; } }
+        public Vector2 HitBoxCenter { get { return new Vector2(
+            (float)Math.Round(centerPosition.X + hitboxHorizRatio * (Width / 2)),
+            (float)Math.Round(centerPosition.Y + hitboxVertRatio * (Height / 2))); } }
+
+        /// <summary>
+        /// The horizontal ratio of the hitbox center for the sprite - 0 is center, 1 is right side, -1 is left side
+        /// </summary>
+        public float HitBoxHorizRatio { get { return hitboxHorizRatio; } set { hitboxHorizRatio = value; } }
+
+        /// <summary>
+        /// The vertical ratio of the hitbox center for the sprite - 0 is center, 1 is bottom, -1 is top
+        /// </summary>
+        public float HitBoxVertRatio { get { return hitboxVertRatio; } set { hitboxVertRatio = value; } }
+
+        /// <summary>
+        /// The radius of the hitbox for the sprite
+        /// </summary>
+        public float HitBoxRadius { get { return hitboxRadius; } set { hitboxRadius = value; } }
 
         /// <summary>
         /// The current 2-component vector of the velocity
@@ -68,7 +93,14 @@ namespace Manic_Shooter.Classes
         public virtual void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.Texture, this.TextureBox, SpriteTint);
-            
+
+            if(this._drawHitbox)
+            {
+                Vector2 hitboxCenter = this.HitBoxCenter;
+                Texture2D texture = TextureManager.Instance.GetTexture("Hitbox");
+                spriteBatch.Draw(texture, hitboxCenter - new Vector2(hitboxRadius, hitboxRadius),null, new Color(255, 0, 0, 120), 0, Vector2.Zero, hitboxRadius * 2 / texture.Width, SpriteEffects.None, 1);
+            }
+
             if (this._hurtFlashing)
             {
                 this.SpriteTint = new Color((int)Math.Min(255, this.SpriteTint.R + HURT_FLASH_SPEED), (int)Math.Min(255, this.SpriteTint.G + HURT_FLASH_SPEED),
@@ -89,7 +121,9 @@ namespace Manic_Shooter.Classes
             this.Visible = true;
             this.TextureBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.TextureBox.Offset((int)texture.Width / -2, (int)texture.Height / -2);
-            this.HitBox = this.TextureBox;
+            this.HitBoxHorizRatio = 0;
+            this.HitBoxVertRatio = 0;
+            this.HitBoxRadius = texture.Width / 2;
             this.SpriteTint = Color.White;
         }
 
@@ -131,8 +165,7 @@ namespace Manic_Shooter.Classes
             texturebox.Width = (int)newSize.X;
             texturebox.Height = (int)newSize.Y;
 
-            hitbox.Width = (int)Math.Round(hitbox.Width / horizRatio);
-            hitbox.Height = (int)Math.Round(hitbox.Height / vertRatio);
+            hitboxRadius *= horizRatio;
         }
 
         public void ScaleSize(decimal scale)
@@ -140,8 +173,7 @@ namespace Manic_Shooter.Classes
             texturebox.Width =(int)(texturebox.Width * scale);
             texturebox.Height = (int)(texturebox.Height * scale);
 
-            hitbox.Width = (int)(hitbox.Width * scale);
-            hitbox.Height = (int)(hitbox.Height * scale);
+            hitboxRadius *= (float)scale;
         }
 
         /// <summary>
@@ -175,9 +207,6 @@ namespace Manic_Shooter.Classes
         {
             centerPosition.X = x;
             centerPosition.Y = y;
-            hitbox.X = (int)centerPosition.X;
-            hitbox.Y = (int)centerPosition.Y;
-            hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
             texturebox.X = (int)centerPosition.X;
             texturebox.Y = (int)centerPosition.Y;
             texturebox.Offset((int)texturebox.Width / -2, (int)texturebox.Height / -2);
@@ -192,9 +221,6 @@ namespace Manic_Shooter.Classes
         {
             centerPosition.X += deltaX;
             centerPosition.Y += deltaY;
-            hitbox.X = (int)centerPosition.X;
-            hitbox.Y = (int)centerPosition.Y;
-            hitbox.Offset((int)hitbox.Width / -2, (int)hitbox.Height / -2);
             texturebox.X = (int)centerPosition.X;
             texturebox.Y = (int)centerPosition.Y;
             texturebox.Offset((int)texturebox.Width / -2, (int)texturebox.Height / -2);

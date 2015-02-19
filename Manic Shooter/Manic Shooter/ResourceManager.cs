@@ -270,7 +270,7 @@ namespace Manic_Shooter
             {
                 foreach (IEnemy e in enemyList)
                 {
-                    if (p.HitBox.Intersects(e.HitBox))
+                    if (Vector2.Distance(p.HitBoxCenter, e.HitBoxCenter) < p.HitBoxRadius + e.HitBoxRadius)
                     {
                         //kill player? kill enemy?
 
@@ -289,7 +289,7 @@ namespace Manic_Shooter
                     {
                         if (!pl.IsActive) continue;
 
-                        if (p.HitBox.Intersects(pl.HitBox))
+                        if (Vector2.Distance(p.HitBoxCenter, pl.HitBoxCenter) < p.HitBoxRadius + pl.HitBoxRadius)
                         {
                             //Should be handled in the player class
                             //pl.Health -= p.GetDamage();
@@ -309,7 +309,7 @@ namespace Manic_Shooter
                     {
                         if (!e.IsActive) continue;
 
-                        if (p.HitBox.Intersects(e.HitBox))
+                        if (Vector2.Distance(p.HitBoxCenter, e.HitBoxCenter) < p.HitBoxRadius + e.HitBoxRadius)
                         {
                             e.Health -= p.GetDamage();
                             if (e.Health <= 0)
