@@ -65,7 +65,7 @@ namespace Manic_Shooter.Classes
         /// Renders the Sprite with it's current texture
         /// </summary>
         /// <param name="spriteBatch">The spritebatch to use for rendering</param>
-        public void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public virtual void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.Texture, this.TextureBox, SpriteTint);
             

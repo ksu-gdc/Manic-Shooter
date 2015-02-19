@@ -291,7 +291,8 @@ namespace Manic_Shooter
 
                         if (p.HitBox.Intersects(pl.HitBox))
                         {
-                            pl.Health -= p.GetDamage();
+                            //Should be handled in the player class
+                            //pl.Health -= p.GetDamage();
                             pl.HitBy(p);
 
                             if (pl.Health <= 0)
