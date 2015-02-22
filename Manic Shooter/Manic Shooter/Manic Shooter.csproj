@@ -41,6 +41,7 @@
     <Compile Include="Classes\KeyboardManager.cs" />
     <Compile Include="Classes\PelletGun.cs" />
     <Compile Include="Classes\Sprite.cs" />
+    <Compile Include="Classes\TriangleEnemy.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Interfaces\IEnemy.cs" />

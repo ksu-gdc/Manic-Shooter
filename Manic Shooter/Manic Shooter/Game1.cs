@@ -26,6 +26,7 @@ namespace Manic_Shooter
 
         DefaultPlayer player1;
         DefaultEnemy enemy1;
+        TriangleEnemy enemy2;
         DefaultProjectile projectile1;
 
         bool isPaused = false;
@@ -88,6 +89,7 @@ namespace Manic_Shooter
 
             TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
+            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
 
 
@@ -99,10 +101,12 @@ namespace Manic_Shooter
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3);
+            enemy2 = new TriangleEnemy(TextureManager.Instance.GetTexture("TriangleEnemy"), new Vector2(-50, -50), 3);
             //projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
             ResourceManager.Instance.AddPlayer(player1);
             ResourceManager.Instance.AddEnemy(enemy1);
+            ResourceManager.Instance.AddEnemy(enemy2);
             //ResourceManager.Instance.AddProjectile(projectile1);
 
             player1.ScaleSize((decimal)0.5);
