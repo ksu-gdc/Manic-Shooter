@@ -12,10 +12,23 @@ using Manic_Shooter.Classes;
 
 namespace Manic_Shooter.Classes
 {
+    public enum PlayerState
+    {
+        Invincible,
+        Normal,
+        Dead,
+    }
+
     class DefaultPlayer: Sprite, IPlayer, ISprite
     {
         private const float HORIZ_SPEED = 200;
         private const float VERT_SPEED = 180;
+
+        private ushort lives = 3;
+        private PlayerState pstate = PlayerState.Normal;
+        private int maxDeathTime = 2000; //milliseconds
+        private int maxInvincibleTime = 1000; //milliseconds
+        private int timer = 0; //millisecond counter
 
         public DefaultPlayer(Texture2D texture, Vector2 position)
             : base(texture, position)
@@ -107,7 +120,8 @@ namespace Manic_Shooter.Classes
         {
             //DefaultProjectile proj = new DefaultProjectile(Content.Load<Texture2D>("Projectile_placeholder.png"), new Vector2(200, 200), 10);
             //ResourceManager.Instance.AddProjectile(
-            Fire();
+            if(pstate == PlayerState.Normal)
+                Fire();
         }
 
         public void AddVelocity(Vector2 appliedVelocity, uint maxSpeed = 200000)
@@ -131,14 +145,68 @@ namespace Manic_Shooter.Classes
 
         public override void Update(GameTime gameTime)
         {
-            Vector2 deltaV = this.Velocity * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-            this.MoveBy(deltaV.X, deltaV.Y);
-            
+            if (pstate == PlayerState.Invincible || pstate == PlayerState.Normal)
+            {
+                Vector2 deltaV = this.Velocity * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+                this.MoveBy(deltaV.X, deltaV.Y);
+            }
+
+            if(pstate == PlayerState.Invincible)
+            {
+                this.SpriteTint = new Color(255, 0, 0, 255);
+                this._hurtFlashing = true;
+            }
+
+            if(timer > 0)
+            {
+                timer -= gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            if(timer <= 0)
+            {
+                if(pstate == PlayerState.Dead)
+                {
+                    pstate = PlayerState.Invincible;
+                    EnableKeyboardEvents(true);
+                    this.Velocity = Vector2.Zero;
+                    timer = maxInvincibleTime;
+                }
+                else if(pstate == PlayerState.Invincible)
+                {
+                    pstate = PlayerState.Normal;
+                    timer = 0;
+                }
+            }
+
             //We can also use gameTime.ElapsedGameTime.TotalSeconds to achieve the same value without the division
             //this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
 
         }
 
+        public override void Render(SpriteBatch spriteBatch)
+        {
+            switch(pstate)
+            {
+                case PlayerState.Normal:
+                    base.Render(spriteBatch);
+                    break;
+                case PlayerState.Invincible:
+                    if(this._hurtFlashing)
+                    {
+                        this._hurtFlashing = false;
+                    }
+                    else
+                    {
+                        base.Render(spriteBatch);
+                        this._hurtFlashing = true;
+                    }
+                    break;
+                case PlayerState.Dead:
+                default:
+                    break;
+            }
+            base.Render(spriteBatch);
+        }
         public new void SetVelocity(Vector2 newVelocity)
         {
             //HACK: Need to consider removing this from IPlayer as 
@@ -148,14 +216,32 @@ namespace Manic_Shooter.Classes
 
         public void HitBy(IProjectile projectile)
         {
-            //this.health -= projectile.Health;
-            this.DebugFlash();
+            if (pstate == PlayerState.Normal)
+            {
+                this.Health -= projectile.GetDamage();
+                if(this.Health > 0)
+                    this.DebugFlash();
+                else
+                {
+                    pstate = PlayerState.Dead;
+                    EnableKeyboardEvents(false);
+                    timer = maxDeathTime;
+                }
+            }
         }
 
         public override void Destroy()
         {
-            base.Destroy();
-            this.EnableKeyboardEvents(false);
+            if (lives <= 0)
+            {
+                base.Destroy();
+                this.EnableKeyboardEvents(false);
+            }
+            else
+            {
+                lives--;
+                pstate = PlayerState.Dead;
+            }
         }
 
         private void DebugFlash()

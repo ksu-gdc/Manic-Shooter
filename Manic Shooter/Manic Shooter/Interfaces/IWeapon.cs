@@ -10,6 +10,7 @@ namespace Manic_Shooter.Interfaces
     {
         Vector2 MuzzleOffset { get; }
         void Fire(TimeSpan elapsedTime);
+        bool IsCoolingDown();
         void SetReferencePosition(int x, int y);
         void SetReferencePosition(Vector2 newPosition);
     }

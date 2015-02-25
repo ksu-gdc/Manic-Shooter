@@ -18,11 +18,11 @@ namespace Manic_Shooter.Classes
         /// The target entry point is used while the sprite is entering the screen. 
         /// Once the sprite reaches this point, it will progress to the next state
         /// </summary>
-        private Vector2 targetEntryPoint;
+        protected Vector2 targetEntryPoint;
 
-        private List<IWeapon> _weapons;
+        protected List<IWeapon> _weapons;
 
-        private EnemyState _state;
+        protected EnemyState _state;
         public EnemyState State { get { return _state; } private set { _state = value; } }
 
         public DefaultEnemy(Texture2D texture, Vector2 position, int health)
@@ -35,16 +35,16 @@ namespace Manic_Shooter.Classes
             //with some padding for both
             Vector2 randomTargetEntryPoint = new Vector2(rng.Next(50,ManicShooter.ScreenSize.Width-50), rng.Next(50,ManicShooter.ScreenSize.Height/2-50));
 
-            InitializeDefaultEnemy(position, randomTargetEntryPoint);
+            InitializeDefaultEnemy(randomTargetEntryPoint);
         }
 
         public DefaultEnemy(Texture2D texture, Vector2 position, int health, Vector2 targetEntryPoint)
             : base(texture, position, health)
         {
-            InitializeDefaultEnemy(position, targetEntryPoint);
+            InitializeDefaultEnemy(targetEntryPoint);
         }
 
-        private void InitializeDefaultEnemy(Vector2 position, Vector2 TargetEntryPoint)
+        private void InitializeDefaultEnemy(Vector2 TargetEntryPoint)
         {
             this.ScaleSize(0.5M);
 
@@ -71,6 +71,7 @@ namespace Manic_Shooter.Classes
             //Bottom Right pellet gun
             _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, this.Height / 2), new Vector2(250, 250), 0.3d));
         }
+        
         /// <summary>
         /// Updates this enemy instance
         /// </summary>
@@ -165,6 +166,7 @@ namespace Manic_Shooter.Classes
                 if (topLeftDistanceSquared < (snapDistance * snapDistance))
                 {
                     this.MoveTo(topLeftSafeSpot);
+                    this.IsActive = false;
                     return true;
                 }
                 this.SetVelocity(topLeftSafeSpot, this._maxSpeed);
@@ -174,6 +176,7 @@ namespace Manic_Shooter.Classes
                 if (topRightDistanceSquared < (snapDistance * snapDistance))
                 {
                     this.MoveTo(topRightSafeSpot);
+                    this.IsActive = false;
                     return true;
                 }
                 this.SetVelocity(topRightSafeSpot, this._maxSpeed);

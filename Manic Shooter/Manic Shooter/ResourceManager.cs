@@ -291,7 +291,8 @@ namespace Manic_Shooter
 
                         if (Vector2.Distance(p.HitBoxCenter, pl.HitBoxCenter) < p.HitBoxRadius + pl.HitBoxRadius)
                         {
-                            pl.Health -= p.GetDamage();
+                            //Should be handled in the player class
+                            //pl.Health -= p.GetDamage();
                             pl.HitBy(p);
 
                             if (pl.Health <= 0)
