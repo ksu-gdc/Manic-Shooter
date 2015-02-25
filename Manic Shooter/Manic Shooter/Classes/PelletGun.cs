@@ -103,5 +103,11 @@ namespace Manic_Shooter.Classes
         {
             _referencePosition = newPosition;
         }
+
+
+        public bool IsCoolingDown()
+        {
+            return _coolDown > 0;
+        }
     }
 }
