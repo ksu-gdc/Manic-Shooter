@@ -207,5 +207,16 @@ namespace Manic_Shooter.Classes
                 w.SetReferencePosition(this.centerPosition);
             }
         }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            //Spawn a default droppable
+
+            DefaultDroppable drop = new DefaultDroppable(
+                TextureManager.Instance.GetTexture("DefaultProjectile"),
+                this.Position);
+            ResourceManager.Instance.AddDroppable(drop);
+        }
     }
 }

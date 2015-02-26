@@ -218,7 +218,7 @@ namespace Manic_Shooter
         {
             spriteBatch.Begin();
 
-            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
+            //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             if(isPaused)

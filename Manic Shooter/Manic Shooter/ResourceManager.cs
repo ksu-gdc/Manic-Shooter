@@ -52,6 +52,11 @@ namespace Manic_Shooter
         /// A list of all projectiles in the game
         /// </summary>
         private List<IProjectile> projectileList;
+        
+        /// <summary>
+        /// A list of all droppables in the game
+        /// </summary>
+        private List<IDroppable> droppableList;
 
         /// <summary>
         /// A list of renderable objects in the game that are not included in the 
@@ -70,11 +75,16 @@ namespace Manic_Shooter
         /// Gets the list of active enemies
         /// </summary>
         public List<IEnemy> ActiveEnemyList { get { return enemyList.FindAll(x => x.IsActive == true); } }
-
+        
         /// <summary>
         /// Gets the list of active projectiles
         /// </summary>
         public List<IProjectile> ActiveProjectileList { get { return projectileList.FindAll(x => x.IsActive == true); } }
+
+        /// <summary>
+        /// Gets the list of active droppables
+        /// </summary>
+        public List<IDroppable> ActiveDroppableList { get { return droppableList.FindAll(x => x.IsActive == true); } }
 
         /// <summary>
         /// Gets the list of active renderable objects
@@ -115,7 +125,7 @@ namespace Manic_Shooter
             else
                 enemyList.Add(newEnemy);
         }
-
+        
         /// <summary>
         /// Adds a new projectile to the game
         /// </summary>
@@ -129,6 +139,21 @@ namespace Manic_Shooter
             }
             else
                 projectileList.Add(newProjectile);
+        }
+
+        /// <summary>
+        /// Adds a new droppable to the game
+        /// </summary>
+        /// <param name="newProjectile">The new projectile to add</param>
+        public void AddDroppable(IDroppable newDroppable)
+        {
+            if (droppableList.Exists(x => x.IsActive == false))
+            {
+                int index = droppableList.FindIndex(x => x.IsActive == false);
+                droppableList[index] = newDroppable;
+            }
+            else
+                droppableList.Add(newDroppable);
         }
 
         /// <summary>
@@ -179,7 +204,16 @@ namespace Manic_Shooter
         /// <param name="projectileToRemove">The projectile to remove</param>
         public void RemoveProjectile(IProjectile projectileToRemove)
         {
-            projectileList.RemoveAll(x => x.Equals(projectileList));
+            projectileList.RemoveAll(x => x.Equals(projectileToRemove));
+        }
+
+        /// <summary>
+        /// Removes a droppable from the list
+        /// </summary>
+        /// <param name="projectileToRemove">The droppable to remove</param>
+        public void RemoveDroppable(IDroppable droppableToRemove)
+        {
+            droppableList.RemoveAll(x => x.Equals(droppableToRemove));
         }
 
         /// <summary>
@@ -204,6 +238,7 @@ namespace Manic_Shooter
             playerList.RemoveAll(x => x.IsActive == false);
             enemyList.RemoveAll(x => x.IsActive == false);
             projectileList.RemoveAll(x => x.IsActive == false);
+            droppableList.RemoveAll(x => x.IsActive == false);
         }
 
         /// <summary>
@@ -217,6 +252,7 @@ namespace Manic_Shooter
             List<IPlayer> visiblePlayers = playerList.FindAll(x => ((IRenderable)x).Visible == true && ((IRenderable)x).IsActive == true);
             List<IEnemy> visibleEnemies = enemyList.FindAll(x => ((IRenderable)x).Visible == true && ((IRenderable)x).IsActive == true);
             List<IProjectile> visibleProjectiles = projectileList.FindAll(x => ((IRenderable)x).Visible == true && ((IRenderable)x).IsActive == true);
+            List<IDroppable> visibleDroppables = droppableList.FindAll(x => ((IRenderable)x).Visible == true && ((IRenderable)x).IsActive == true);
 
             foreach (IRenderable r in visibleRenderableObjects)
             {
@@ -234,6 +270,11 @@ namespace Manic_Shooter
             }
 
             foreach (IRenderable r in visibleProjectiles)
+            {
+                r.Render(spriteBatch);
+            }
+
+            foreach (IRenderable r in visibleDroppables)
             {
                 r.Render(spriteBatch);
             }
@@ -257,6 +298,12 @@ namespace Manic_Shooter
             {
                 if (p.IsActive)
                     p.Update(gameTime);
+            }
+
+            foreach (IDroppable d in droppableList)
+            {
+                if (d.IsActive)
+                    d.Update(gameTime);
             }
 
             CheckCollisions();
@@ -320,6 +367,19 @@ namespace Manic_Shooter
                     }
                 }
             }
+
+            foreach (IDroppable d in droppableList)
+            {
+                foreach (IPlayer p in playerList)
+                {
+                    if (Vector2.Distance(p.HitBoxCenter, d.HitBoxCenter) < p.HitBoxRadius + d.HitBoxRadius)
+                    {
+                        //Kill the world with your smile
+                        d.ApplyEffect(p);
+                        d.Destroy();
+                    }
+                }
+            }
         }
 
         private ResourceManager()
@@ -327,6 +387,7 @@ namespace Manic_Shooter
             playerList = new List<IPlayer>();
             enemyList = new List<IEnemy>();
             projectileList = new List<IProjectile>();
+            droppableList = new List<IDroppable>();
             renderList = new List<IRenderable>();
         }
     }

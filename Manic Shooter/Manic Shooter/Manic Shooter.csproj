@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\DefaultDroppable.cs" />
     <Compile Include="Classes\DefaultEnemy.cs" />
     <Compile Include="Classes\DefaultPlayer.cs" />
     <Compile Include="Classes\DefaultProjectile.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Classes\TriangleEnemy.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Interfaces\IDroppable.cs" />
     <Compile Include="Interfaces\IEnemy.cs" />
     <Compile Include="Interfaces\IInputManager.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
