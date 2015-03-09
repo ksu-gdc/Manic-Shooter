@@ -54,7 +54,7 @@ namespace Manic_Shooter.Classes
 
             this._lastPlayerPositions = new Queue<Vector2>();
 
-            this._lifeTimer = 300000;
+            this._lifeTimer = 10000;
 
             this.Velocity = Vector2.Zero;
 

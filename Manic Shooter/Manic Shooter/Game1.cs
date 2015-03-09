@@ -59,6 +59,9 @@ namespace Manic_Shooter
             inGameTotalTime = new GameTime();
 
             KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.Pause, gameKey_pausePressed);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnDefaultEnemy, gameKey_spawnDefault);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnTriangleEnemy, gameKey_spawnTriangle);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnHunterEnemy, gameKey_spawnHunter);
         }
 
         private void SpawnEnemy()
@@ -103,15 +106,9 @@ namespace Manic_Shooter
 
 
             player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
-            enemy1 = new DefaultEnemy(TextureManager.Instance.GetTexture("DefaultEnemy"), new Vector2(-50, -50), 3);
-            enemy2 = new TriangleEnemy(TextureManager.Instance.GetTexture("TriangleEnemy"), new Vector2(-50, -50), 3);
-            enemy3 = new HunterEnemy(TextureManager.Instance.GetTexture("HunterEnemy"), new Vector2(-50, -50), 3);
             //projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
             ResourceManager.Instance.AddPlayer(player1);
-            ResourceManager.Instance.AddEnemy(enemy1);
-            ResourceManager.Instance.AddEnemy(enemy2);
-            ResourceManager.Instance.AddEnemy(enemy3);
             //ResourceManager.Instance.AddProjectile(projectile1);
 
             player1.ScaleSize((decimal)0.5);
@@ -218,7 +215,7 @@ namespace Manic_Shooter
         {
             spriteBatch.Begin();
 
-            fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
+            //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             if(isPaused)
@@ -253,6 +250,21 @@ namespace Manic_Shooter
             if (GameState == gameStates.Play)
                 isPaused = !isPaused;
             //This will create a bug where the timer updates bad times from unpause to pause
+        }
+
+        public void gameKey_spawnDefault(Keys key)
+        {
+            EnemySpawner.Instance.SpawnDefaultEnemy();
+        }
+
+        public void gameKey_spawnTriangle(Keys key)
+        {
+            EnemySpawner.Instance.SpawnTriangleEnemy();
+        }
+
+        public void gameKey_spawnHunter(Keys key)
+        {
+            EnemySpawner.Instance.SpawnHunterEnemy();
         }
 
         private void GameStateSwitched()
