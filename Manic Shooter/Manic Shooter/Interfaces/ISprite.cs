@@ -39,6 +39,8 @@ namespace Manic_Shooter.Interfaces
         /// </summary>
         int Health { get; set; }
 
+        int MaxHealth { get; set; }
+
         /// <summary>
         /// Gets or Sets whether or not this sprite is active or not. If inactive it
         /// may be reused as another sprite or it may be removed from the lists.

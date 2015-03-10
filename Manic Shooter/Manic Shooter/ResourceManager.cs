@@ -342,9 +342,12 @@ namespace Manic_Shooter
                             //pl.Health -= p.GetDamage();
                             pl.HitBy(p);
 
+                            //Handled inside of the player
+                            /*
                             if (pl.Health <= 0)
                                 pl.Destroy();
 
+                             * */
                             p.Destroy();
                         }
                     }

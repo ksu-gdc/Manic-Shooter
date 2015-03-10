@@ -74,6 +74,8 @@ namespace Manic_Shooter.Classes
         /// </summary>
         public int Health { get; set; }
 
+        public int MaxHealth { get; set; }
+
         /// <summary>
         /// Gets or Sets whether or not this sprite is active or not. If inactive it
         /// may be reused as another sprite or it may be removed from the lists.

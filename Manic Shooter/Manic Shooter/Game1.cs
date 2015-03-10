@@ -34,7 +34,7 @@ namespace Manic_Shooter
         bool isPaused = false;
         GameTime inGameTotalTime;
 
-        enum gameStates { Menu, Play, GameOver };
+        public enum gameStates { Menu, Play, GameOver };
 
         enum MenuStates { Main, About };
 
@@ -42,7 +42,7 @@ namespace Manic_Shooter
 
         private int MenuIndex = 0;
 
-        private gameStates GameState = gameStates.Play;
+        public static gameStates GameState = gameStates.Play;
 
         public ManicShooter()
             : base()
@@ -148,6 +148,8 @@ namespace Manic_Shooter
                     break;
                 case gameStates.Play:
                     UpdatePlay(gameTime);
+                    if (player1.isGameOver)
+                        GameState = gameStates.GameOver;
                     break;
                 case gameStates.GameOver:
                     UpdateGameOver(gameTime);
@@ -218,6 +220,8 @@ namespace Manic_Shooter
             //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
+            fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
             if(isPaused)
                 fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
 
@@ -241,7 +245,7 @@ namespace Manic_Shooter
         private void DrawGameOver(GameTime gameTime)
         {
             spriteBatch.Begin();
-
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 50, ScreenSize.Height / 2 - 5, "Game Over");
             spriteBatch.End();
         }
 
