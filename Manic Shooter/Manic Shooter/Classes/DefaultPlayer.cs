@@ -30,6 +30,16 @@ namespace Manic_Shooter.Classes
         private int maxInvincibleTime = 1000; //milliseconds
         private int timer = 0; //millisecond counter
 
+        public bool isGameOver
+        {
+            get { return (this.lives <= 0 && this.pstate == PlayerState.Dead); }
+        }
+
+        public int Lives
+        {
+            get { return this.lives; }
+        }
+
         public DefaultPlayer(Texture2D texture, Vector2 position)
             : base(texture, position)
         {
@@ -43,6 +53,7 @@ namespace Manic_Shooter.Classes
             this.HitBoxVertRatio = 0.4f;
 
             this.Health = 5;
+            this.MaxHealth = this.Health;
             _drawHitbox = true;
         }
 
@@ -185,10 +196,11 @@ namespace Manic_Shooter.Classes
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            bool render = true;
             switch(pstate)
             {
                 case PlayerState.Normal:
-                    base.Render(spriteBatch);
+                    render = true;
                     break;
                 case PlayerState.Invincible:
                     if(this._hurtFlashing)
@@ -200,12 +212,16 @@ namespace Manic_Shooter.Classes
                         base.Render(spriteBatch);
                         this._hurtFlashing = true;
                     }
+                    render = true;
                     break;
                 case PlayerState.Dead:
                 default:
+                    render = false;
                     break;
             }
-            base.Render(spriteBatch);
+
+            if(render)
+                base.Render(spriteBatch);
         }
         public new void SetVelocity(Vector2 newVelocity)
         {
@@ -223,8 +239,7 @@ namespace Manic_Shooter.Classes
                     this.DebugFlash();
                 else
                 {
-                    pstate = PlayerState.Dead;
-                    EnableKeyboardEvents(false);
+                    this.Destroy();
                     timer = maxDeathTime;
                 }
             }
@@ -234,12 +249,14 @@ namespace Manic_Shooter.Classes
         {
             if (lives <= 0)
             {
-                base.Destroy();
                 this.EnableKeyboardEvents(false);
+                ManicShooter.GameState = ManicShooter.gameStates.GameOver;
+                base.Destroy();
             }
             else
             {
                 lives--;
+                this.Health = this.MaxHealth;
                 pstate = PlayerState.Dead;
             }
         }
