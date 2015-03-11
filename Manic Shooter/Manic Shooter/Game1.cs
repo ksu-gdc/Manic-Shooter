@@ -97,6 +97,7 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
             TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
+            TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missile1.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
 
             //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);

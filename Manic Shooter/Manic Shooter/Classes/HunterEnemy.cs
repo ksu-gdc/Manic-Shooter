@@ -196,7 +196,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon w in _weapons)
             {
-                w.SetReferencePosition(this.centerPosition);
+                w.SetReferencePosition(Position);
             }
         }
 

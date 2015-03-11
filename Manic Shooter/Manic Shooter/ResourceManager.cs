@@ -373,6 +373,8 @@ namespace Manic_Shooter
 
             foreach (IDroppable d in droppableList)
             {
+                if (!d.IsActive) continue;
+
                 foreach (IPlayer p in playerList)
                 {
                     if (Vector2.Distance(p.HitBoxCenter, d.HitBoxCenter) < p.HitBoxRadius + d.HitBoxRadius)
