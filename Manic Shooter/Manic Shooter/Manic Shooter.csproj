@@ -44,6 +44,10 @@
     <Compile Include="Classes\PelletGun.cs" />
     <Compile Include="Classes\Sprite.cs" />
     <Compile Include="Classes\TriangleEnemy.cs" />
+    <Compile Include="Components\AssetComponent.cs" />
+    <Compile Include="Components\ComponentManagementComponent.cs" />
+    <Compile Include="Components\GameComponent.cs" />
+    <Compile Include="Components\RenderComponent.cs" />
     <Compile Include="EnemySpawner.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
@@ -68,34 +72,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bullet1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\enemy1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Enemy_placeholder.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\player2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Player_placeholder.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Projectile_placeholder.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Times New Roman_0.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Content\Times New Roman.fnt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Content\enemy1.xnb" />
+    <None Include="Content\HUDFont.xnb" />
+    <None Include="Content\player2.xnb" />
+    <None Include="Content\Player_placeholder.xnb" />
+    <None Include="Content\Projectile_placeholder.xnb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -110,7 +110,7 @@ namespace Manic_Shooter
 
             ResourceManager.Instance.AddPlayer(player1);
             //ResourceManager.Instance.AddProjectile(projectile1);
-
+            
             player1.ScaleSize((decimal)0.5);
             //enemy1.ScaleSize((decimal)2);
             //projectile1.ScaleSize((decimal)0.5);
