@@ -11,6 +11,8 @@ namespace EntityComponentSystem.Systems
     /// </summary>
     public class ComponentManagementSystem
     {
+        public const string _COMPONENTMANAGEMENTCOMPONENT_ = "ComponentManagementComponent";
+
         /// <summary>
         /// Singleton Instance for global static access to System methods
         /// </summary>
@@ -46,26 +48,27 @@ namespace EntityComponentSystem.Systems
         {
             //RenderComponent = new RenderComponent();
             _gameComponents = new Dictionary<string, IGameComponent>();
+            this.AddComponent(typeof(ComponentManagementComponent));
         }
 
-        public void AddComponent(string name, IGameComponent component)
+        public void AddComponent(Type T) 
         {
-            if (_gameComponents.ContainsKey(name)) throw new Exception("The given key '" + name + "' already exists!");
-            _gameComponents.Add(name, component);
+            if (_gameComponents.ContainsKey(T.ToString())) throw new Exception("The given key '" + T.ToString() + "' already exists!");
+            _gameComponents.Add(T.ToString(), (IGameComponent)Activator.CreateInstance(T));
         }
 
-        public bool ContainsComponent(string name)
+        public bool ContainsComponent(Type T)
         {
-            return _gameComponents.ContainsKey(name);
+            return _gameComponents.ContainsKey(T.ToString());
         }
-        
-        public T GetComponent<T>(string name) where T:class, IGameComponent
+
+        public T GetComponent<T>() where T : class, IGameComponent
         {
-            if (!_gameComponents.ContainsKey(name)) throw new KeyNotFoundException("Key:\'" + name + "\' must first be added before it can be retrieved");
+            if (!_gameComponents.ContainsKey(typeof(T).ToString())) throw new KeyNotFoundException("Key:\'" + typeof(T).ToString() + "\' must first be added before it can be retrieved");
             //T component = (T)Convert.ChangeType(gameComponents[name], typeof(T));
-            T component = _gameComponents[name] as T;
+            T component = _gameComponents[typeof(T).ToString()] as T;
 
-            if(component == null) throw new TypeAccessException("The given generic type '" + typeof(T).ToString() + "' does not match component type of '" + name + "'");
+            if (component == null) throw new TypeAccessException("The given generic type '" + typeof(T).ToString() + "' cannot be successfully cast");
 
             return component;
         }

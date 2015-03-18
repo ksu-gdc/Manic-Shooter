@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Storage;
 using TextPackage;
 using Manic_Shooter.Classes;
 using System.Timers;
+using EntityComponentSystem.Systems;
+using EntityComponentSystem.Components;
+using EntityComponentSystem.Structure;
 #endregion
 
 namespace Manic_Shooter
@@ -18,6 +21,16 @@ namespace Manic_Shooter
     /// </summary>
     public class ManicShooter : Game
     {
+        //Example Action code for quick anonymous methods:
+            //Action test = () =>
+            //{
+            //    position.Point.X += 100;
+            //};
+
+            //test();
+
+        public static uint PlayerID;
+
         public static Rectangle ScreenSize;
         public static Vector2 playerPosition;
 
@@ -79,6 +92,19 @@ namespace Manic_Shooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            AssetSystem.Instance.InitializeContent(Content);
+
+            ComponentManagementSystem.Instance.AddComponent(typeof(RenderComponent));
+            ComponentManagementSystem.Instance.AddComponent(typeof(PositionComponent));
+            ComponentManagementSystem.Instance.AddComponent(typeof(RotationComponent));
+            ComponentManagementSystem.Instance.AddComponent(typeof(MovementComponent));
+
+            AssetSystem.Instance.AddAsset(AssetType.Texture, "Enemy1", @"enemy1");
+            AssetSystem.Instance.AddAsset(AssetType.Texture, "Player", @"player2");
+            AssetSystem.Instance.AddAsset(AssetType.Texture, "Pellet", @"Projectile_placeholder");
+            AssetSystem.Instance.AddAsset(AssetType.Texture, "Enemy2", @"Enemy_placeholder");
+
+            AssetSystem.Instance.AddAsset(AssetType.SpriteFont, "HUDFont", @"HUDFont");
             base.Initialize();
         }
 
@@ -90,28 +116,25 @@ namespace Manic_Shooter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            AssetSystem.Instance.GetTexture("Player");
+            AssetSystem.Instance.GetTexture("Pellet");
+            AssetSystem.Instance.GetSpriteFont("HUDFont");
 
-            fontRenderer = new FontRenderer(Content, "Times New Roman");
-
-            TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
-            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
-            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
-            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
-            TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
-
+            PlayerID = ComponentFactory.Instance.CreatePlayer();
+            
             //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);
             //hitboxTexture.SetData(new Color[] { Color.Red });
 
-            TextureManager.Instance.AddTexture("Hitbox", TextureManager.Instance.createCircleText(GraphicsDevice, 40, Color.Red));
+            //TextureManager.Instance.AddTexture("Hitbox", TextureManager.Instance.createCircleText(GraphicsDevice, 40, Color.Red));
 
 
-            player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+            //player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             //projectile1 = new DefaultProjectile(TextureManager.Instance.GetTexture("DefaultProjectile"), new Vector2(200, 200), new Vector2(0, 120), 3);
 
-            ResourceManager.Instance.AddPlayer(player1);
+            //ResourceManager.Instance.AddPlayer(player1);
             //ResourceManager.Instance.AddProjectile(projectile1);
             
-            player1.ScaleSize((decimal)0.5);
+            //player1.ScaleSize((decimal)0.5);
             //enemy1.ScaleSize((decimal)2);
             //projectile1.ScaleSize((decimal)0.5);
 
@@ -125,6 +148,7 @@ namespace Manic_Shooter
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            AssetSystem.Instance.Unload();
         }
 
         /// <summary>
@@ -137,6 +161,7 @@ namespace Manic_Shooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            /*
             KeyboardManager.Instance.Update(gameTime);
 
             playerPosition = player1.Position;
@@ -155,6 +180,9 @@ namespace Manic_Shooter
                     UpdateGameOver(gameTime);
                     break;
             }
+            */
+            InputSystem.Instance.Update(gameTime);
+            MovementSystem.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -197,6 +225,7 @@ namespace Manic_Shooter
         {
             GraphicsDevice.Clear(Color.Black);
 
+            /*
             switch(GameState)
             {
                 case gameStates.Play:
@@ -209,6 +238,9 @@ namespace Manic_Shooter
                     DrawGameOver(gameTime);
                     break;
             }
+            */
+
+            RenderSystem.Instance.Draw(gameTime, spriteBatch);
 
             base.Draw(gameTime);
         }

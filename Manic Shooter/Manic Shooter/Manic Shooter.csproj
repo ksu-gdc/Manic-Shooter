@@ -44,16 +44,22 @@
     <Compile Include="Classes\PelletGun.cs" />
     <Compile Include="Classes\Sprite.cs" />
     <Compile Include="Classes\TriangleEnemy.cs" />
-    <Compile Include="Components\AssetComponent.cs" />
+    <Compile Include="Components\AssetComponents.cs" />
     <Compile Include="Components\ComponentManagementComponent.cs" />
     <Compile Include="Components\GameComponent.cs" />
+    <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\RenderComponent.cs" />
+    <Compile Include="Components\RotationComponent.cs" />
+    <Compile Include="Components\TimerComponent.cs" />
+    <Compile Include="Components\MovementComponent.cs" />
     <Compile Include="EnemySpawner.cs" />
     <Compile Include="FontScript.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Interfaces\IDroppable.cs" />
     <Compile Include="Interfaces\IEnemy.cs" />
     <Compile Include="Interfaces\IInputManager.cs" />
+    <Compile Include="Interfaces\IGameComponent.cs" />
+    <Compile Include="Interfaces\ISystem.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IProjectile.cs" />
     <Compile Include="Interfaces\IRenderable.cs" />
@@ -62,6 +68,17 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManager.cs" />
+    <Compile Include="Structure\AssetManager.cs" />
+    <Compile Include="Structure\AssetManagerStructs.cs" />
+    <Compile Include="Structure\AVLTree.cs" />
+    <Compile Include="Structure\AVLTreeNode.cs" />
+    <Compile Include="Structure\ComponentFactory.cs" />
+    <Compile Include="Structure\IDManager.cs" />
+    <Compile Include="Systems\AssetSystem.cs" />
+    <Compile Include="Systems\ComponentManagementSystem.cs" />
+    <Compile Include="Systems\InputSystem.cs" />
+    <Compile Include="Systems\MovementSystem.cs" />
+    <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="TextureManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,11 +92,24 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\enemy1.xnb" />
-    <None Include="Content\HUDFont.xnb" />
-    <None Include="Content\player2.xnb" />
-    <None Include="Content\Player_placeholder.xnb" />
-    <None Include="Content\Projectile_placeholder.xnb" />
+    <None Include="Content\enemy1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Enemy_placeholder.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\HUDFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\player2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Player_placeholder.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Projectile_placeholder.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

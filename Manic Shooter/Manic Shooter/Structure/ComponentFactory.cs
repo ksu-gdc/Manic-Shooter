@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Systems;
+using Manic_Shooter;
 
 namespace EntityComponentSystem.Structure
 {
@@ -35,11 +36,40 @@ namespace EntityComponentSystem.Structure
             {
                 EntityID = eid,
                 isVisible = true,
-                Image = AssetSystem.Instance.GetTexture("Player")
+                Image = AssetSystem.Instance.GetTexture("Player"),
+                drawRectangle = null,
+                sourceRectangle = null,
+                depth = 1.0f,
+                color = Color.White,
+                effect = SpriteEffects.None,
+                scale = new Vector2(0.5f,0.5f)
             };
+            ComponentManagementSystem.Instance.GetComponent<RenderComponent>().Add(eid, renderObject);
 
-            ComponentManagementSystem.Instance.GetComponent<RenderComponent>(RenderSystem._RENDERCOMPONENT_).Add(eid, renderObject);
+            Position position = new Position
+            {
+                EntityID = eid,
+                Point = Point.Zero
+            };
+            ComponentManagementSystem.Instance.GetComponent<PositionComponent>().Add(eid, position);
 
+            Movement movement = new Movement
+            {
+                EntityID = eid,
+                Speed = 500,
+                MaxSpeed = 500,
+                VelocityVector = new Vector2(0,0)
+            };
+            ComponentManagementSystem.Instance.GetComponent<MovementComponent>().Add(eid, movement);
+
+            Rotation rotation = new Rotation
+            {
+                EntityID = eid,
+                Origin = new Vector2(renderObject.Image.Width/2, renderObject.Image.Height/2),
+                Radians = 0f
+            };
+            ComponentManagementSystem.Instance.GetComponent<RotationComponent>().Add(eid, rotation);
+            
             return eid;
         }
 
@@ -53,8 +83,7 @@ namespace EntityComponentSystem.Structure
             };
             if (loadsets != null) modelAsset.Model.LoadSets = loadsets;
 
-            ComponentManagementSystem.Instance.GetComponent<ModelComponent>(AssetSystem._MODELCOMPONENT_).Add(eid, modelAsset);
-            //ComponentManagementSystem.Instance.ModelComponent.Add(eid, modelAsset);
+            ComponentManagementSystem.Instance.GetComponent<ModelComponent>().Add(eid, modelAsset);
             return eid;
         }
 
@@ -68,7 +97,7 @@ namespace EntityComponentSystem.Structure
             };
             if (loadsets != null) textureAsset.Texture.LoadSets = loadsets;
 
-            ComponentManagementSystem.Instance.GetComponent<TextureComponent>(AssetSystem._TEXTURECOMPONENT_).Add(eid, textureAsset);
+            ComponentManagementSystem.Instance.GetComponent<TextureComponent>().Add(eid, textureAsset);
             
             return eid;
         }
@@ -83,7 +112,7 @@ namespace EntityComponentSystem.Structure
             };
             if(loadsets != null) soundAsset.SoundEffect.LoadSets = loadsets;
 
-            ComponentManagementSystem.Instance.GetComponent<SoundComponent>(AssetSystem._SOUNDCOMPONENT_).Add(eid, soundAsset);
+            ComponentManagementSystem.Instance.GetComponent<SoundComponent>().Add(eid, soundAsset);
 
             return eid;
         }
@@ -98,7 +127,7 @@ namespace EntityComponentSystem.Structure
             };
             if (loadsets != null) spriteFontAsset.SpriteFont.LoadSets = loadsets;
 
-            ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>(AssetSystem._SPRITEFONTCOMPONENT_).Add(eid, spriteFontAsset);
+            ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>().Add(eid, spriteFontAsset);
 
             return eid;
         }
@@ -113,7 +142,7 @@ namespace EntityComponentSystem.Structure
             };
             if (loadsets != null) effectAsset.Effect.LoadSets = loadsets;
 
-            ComponentManagementSystem.Instance.GetComponent<EffectComponent>(AssetSystem._EFFECTCOMPONENT_).Add(eid, effectAsset);
+            ComponentManagementSystem.Instance.GetComponent<EffectComponent>().Add(eid, effectAsset);
 
             return eid;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace EntityComponentSystem.Components
 {
@@ -13,8 +14,15 @@ namespace EntityComponentSystem.Components
     public struct RenderObject
     {
         public uint EntityID;
-        public Texture2D Image;
+        public Texture2D Image; //TODO:Could possibly be in Animation Component
         public bool isVisible;
+        public Rectangle? drawRectangle;
+        public Rectangle? sourceRectangle;
+        //public Vector2 origin; //HACK: Included this in Rotation Component, We'll see how it works
+        public Vector2 scale;
+        public Color color;
+        public SpriteEffects effect;
+        public float depth;
     }
 
     /// <summary>

@@ -23,12 +23,6 @@ namespace EntityComponentSystem.Systems
     
     public class AssetSystem : ISystem
     {
-        public const string _MODELCOMPONENT_ = "ModelComponent";
-        public const string _TEXTURECOMPONENT_ = "TextureComponent";
-        public const string _SOUNDCOMPONENT_ = "SoundComponent";
-        public const string _SPRITEFONTCOMPONENT_ = "SpriteFontComponent";
-        public const string _EFFECTCOMPONENT_ = "EffectComponent";
-
         /// <summary>
         /// Stored instance of the AssetSystem
         /// </summary>
@@ -65,28 +59,28 @@ namespace EntityComponentSystem.Systems
             switch(type)
             {
                 case AssetType.Model:
-                    if (!ComponentManagementSystem.Instance.ContainsComponent(_MODELCOMPONENT_))
-                        ComponentManagementSystem.Instance.AddComponent(_MODELCOMPONENT_, new ModelComponent());
+                    if (!ComponentManagementSystem.Instance.ContainsComponent(typeof(ModelComponent)))
+                        ComponentManagementSystem.Instance.AddComponent(typeof(ModelComponent));
                     ComponentFactory.Instance.CreateModelAsset(name, path, loadSets);
                     return;
                 case AssetType.Texture:
-                    if (!ComponentManagementSystem.Instance.ContainsComponent(_TEXTURECOMPONENT_))
-                        ComponentManagementSystem.Instance.AddComponent(_TEXTURECOMPONENT_, new TextureComponent());
+                    if (!ComponentManagementSystem.Instance.ContainsComponent(typeof(TextureComponent)))
+                        ComponentManagementSystem.Instance.AddComponent(typeof(TextureComponent));
                     ComponentFactory.Instance.CreateTextureAsset(name, path, loadSets);
                     return;
                 case AssetType.Sound:
-                    if (!ComponentManagementSystem.Instance.ContainsComponent(_SOUNDCOMPONENT_))
-                        ComponentManagementSystem.Instance.AddComponent(_SOUNDCOMPONENT_, new SoundComponent());
+                    if (!ComponentManagementSystem.Instance.ContainsComponent(typeof(SoundComponent)))
+                        ComponentManagementSystem.Instance.AddComponent(typeof(SoundComponent));
                     ComponentFactory.Instance.CreateSoundEffectAsset(name, path, loadSets);
                     return;
                 case AssetType.SpriteFont:
-                    if (!ComponentManagementSystem.Instance.ContainsComponent(_SPRITEFONTCOMPONENT_))
-                        ComponentManagementSystem.Instance.AddComponent(_SPRITEFONTCOMPONENT_, new SpriteFontComponent());
+                    if (!ComponentManagementSystem.Instance.ContainsComponent(typeof(SpriteFontComponent)))
+                        ComponentManagementSystem.Instance.AddComponent(typeof(SpriteFontComponent));
                     ComponentFactory.Instance.CreateSpriteFontAsset(name, path, loadSets);
                     return;
                 case AssetType.Effect:
-                    if (!ComponentManagementSystem.Instance.ContainsComponent(_EFFECTCOMPONENT_))
-                        ComponentManagementSystem.Instance.AddComponent(_EFFECTCOMPONENT_, new EffectComponent());
+                    if (!ComponentManagementSystem.Instance.ContainsComponent(typeof(EffectComponent)))
+                        ComponentManagementSystem.Instance.AddComponent(typeof(EffectComponent));
                     ComponentFactory.Instance.CreateEffectAsset(name, path, loadSets);
                     return;
             }
@@ -97,7 +91,7 @@ namespace EntityComponentSystem.Systems
         public Model GetModel(String name)
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
-            List<ModelAsset> modelList = ComponentManagementSystem.Instance.GetComponent<ModelComponent>(_MODELCOMPONENT_).ToList();
+            List<ModelAsset> modelList = ComponentManagementSystem.Instance.GetComponent<ModelComponent>().ToList();
             //List<ModelAsset> modelList = ComponentManagementSystem.Instance.ModelComponent.ToList();
             
             ModelAsset asset = modelList.Find(x => x.Model.Name.Equals(name));
@@ -110,7 +104,7 @@ namespace EntityComponentSystem.Systems
         public Texture2D GetTexture(String name)
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
-            List<TextureAsset> textureList = ComponentManagementSystem.Instance.GetComponent<TextureComponent>(_TEXTURECOMPONENT_).ToList();
+            List<TextureAsset> textureList = ComponentManagementSystem.Instance.GetComponent<TextureComponent>().ToList();
 
             TextureAsset asset = textureList.Find(x => x.Texture.Name.Equals(name));
 
@@ -122,7 +116,7 @@ namespace EntityComponentSystem.Systems
         public SoundEffect GetSoundEffect(String name)
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
-            List<SoundAsset> soundList = ComponentManagementSystem.Instance.GetComponent<SoundComponent>(_SOUNDCOMPONENT_).ToList();
+            List<SoundAsset> soundList = ComponentManagementSystem.Instance.GetComponent<SoundComponent>().ToList();
 
             SoundAsset asset = soundList.Find(x => x.SoundEffect.Name.Equals(name));
 
@@ -134,7 +128,7 @@ namespace EntityComponentSystem.Systems
         public SpriteFont GetSpriteFont(String name)
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
-            List<SpriteFontAsset> spriteFontList = ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>(_SPRITEFONTCOMPONENT_).ToList();
+            List<SpriteFontAsset> spriteFontList = ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>().ToList();
 
             SpriteFontAsset asset = spriteFontList.Find(x => x.SpriteFont.Name.Equals(name));
 
@@ -146,7 +140,7 @@ namespace EntityComponentSystem.Systems
         public Effect GetEffect(String name)
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
-            List<EffectAsset> effectList = ComponentManagementSystem.Instance.GetComponent<EffectComponent>(_EFFECTCOMPONENT_).ToList();
+            List<EffectAsset> effectList = ComponentManagementSystem.Instance.GetComponent<EffectComponent>().ToList();
 
             EffectAsset asset = effectList.Find(x => x.Effect.Name.Equals(name));
 
@@ -218,11 +212,11 @@ namespace EntityComponentSystem.Systems
         {
             if (!_isInitialized) throw new NullReferenceException("Asset System must be initialized before it can be used");
             
-            List<ModelAsset> modelList = ComponentManagementSystem.Instance.GetComponent<ModelComponent>(_MODELCOMPONENT_).All.Where(x => x.Model.LoadSets.Contains(loadSet) || x.Model.LoadSets.Contains(LoadSets.All)).ToList();
-            List<TextureAsset> textureList = ComponentManagementSystem.Instance.GetComponent<TextureComponent>(_TEXTURECOMPONENT_).All.Where(x => x.Texture.LoadSets.Contains(loadSet) || x.Texture.LoadSets.Contains(LoadSets.All)).ToList();
-            List<SoundAsset> soundList = ComponentManagementSystem.Instance.GetComponent<SoundComponent>(_SOUNDCOMPONENT_).All.Where(x => x.SoundEffect.LoadSets.Contains(loadSet) || x.SoundEffect.LoadSets.Contains(LoadSets.All)).ToList();
-            List<SpriteFontAsset> spriteFontList = ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>(_SPRITEFONTCOMPONENT_).All.Where(x => x.SpriteFont.LoadSets.Contains(loadSet) || x.SpriteFont.LoadSets.Contains(LoadSets.All)).ToList();
-            List<EffectAsset> effectList = ComponentManagementSystem.Instance.GetComponent<EffectComponent>(_EFFECTCOMPONENT_).All.Where(x => x.Effect.LoadSets.Contains(loadSet) || x.Effect.LoadSets.Contains(LoadSets.All)).ToList();
+            List<ModelAsset> modelList = ComponentManagementSystem.Instance.GetComponent<ModelComponent>().All.Where(x => x.Model.LoadSets.Contains(loadSet) || x.Model.LoadSets.Contains(LoadSets.All)).ToList();
+            List<TextureAsset> textureList = ComponentManagementSystem.Instance.GetComponent<TextureComponent>().All.Where(x => x.Texture.LoadSets.Contains(loadSet) || x.Texture.LoadSets.Contains(LoadSets.All)).ToList();
+            List<SoundAsset> soundList = ComponentManagementSystem.Instance.GetComponent<SoundComponent>().All.Where(x => x.SoundEffect.LoadSets.Contains(loadSet) || x.SoundEffect.LoadSets.Contains(LoadSets.All)).ToList();
+            List<SpriteFontAsset> spriteFontList = ComponentManagementSystem.Instance.GetComponent<SpriteFontComponent>().All.Where(x => x.SpriteFont.LoadSets.Contains(loadSet) || x.SpriteFont.LoadSets.Contains(LoadSets.All)).ToList();
+            List<EffectAsset> effectList = ComponentManagementSystem.Instance.GetComponent<EffectComponent>().All.Where(x => x.Effect.LoadSets.Contains(loadSet) || x.Effect.LoadSets.Contains(LoadSets.All)).ToList();
 
             foreach(ModelAsset m in modelList)
             {
