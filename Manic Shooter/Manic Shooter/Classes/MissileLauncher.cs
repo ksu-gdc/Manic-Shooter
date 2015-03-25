@@ -37,6 +37,8 @@ namespace Manic_Shooter.Classes
         /// </summary>
         private double _coolDown;
 
+        private bool _isPlayerGun;
+
         /// <summary>
         /// Initialize the pellet gun weapon
         /// </summary>
@@ -63,12 +65,14 @@ namespace Manic_Shooter.Classes
             _firingVelocity = new Vector2(firingSpeed * unitX, firingSpeed * unitY);
         }
 
-        public MissileLauncher(Vector2 referencePosition, Vector2 muzzlePosition, Vector2 firingVelocity, double maxCoolDown)
+        public MissileLauncher(Vector2 referencePosition, Vector2 muzzlePosition, Vector2 firingVelocity, double maxCoolDown, bool isPlayerGun = false)
         {
             _referencePosition = referencePosition;
             _muzzleOffset = muzzlePosition;
             _firingVelocity = firingVelocity;
             _maxCoolDown = maxCoolDown;
+
+            _isPlayerGun = isPlayerGun;
         }
 
         public void Fire(TimeSpan elapsedTime)
@@ -85,7 +89,7 @@ namespace Manic_Shooter.Classes
             Debug.WriteLine("Reference Position = " + _referencePosition.ToString());
             //Otherwise we can go ahead and Fire by creating a new projectile
             ResourceManager.Instance.AddProjectile(
-                new DefaultMissile(TextureManager.Instance.GetTexture("DefaultMissile"), Vector2.Add(_referencePosition, _muzzleOffset), _firingVelocity, 1, false)
+                new DefaultMissile(TextureManager.Instance.GetTexture("DefaultMissile"), Vector2.Add(_referencePosition, _muzzleOffset), _firingVelocity, 1, _isPlayerGun)
                 );
 
             //And setting the cool down timer

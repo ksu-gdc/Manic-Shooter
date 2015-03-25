@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\MissileUpgradeDroppable.cs" />
     <Compile Include="Classes\PelletUpgradeDroppable.cs" />
     <Compile Include="Classes\DefaultMissile.cs" />
     <Compile Include="Classes\MissileLauncher.cs" />

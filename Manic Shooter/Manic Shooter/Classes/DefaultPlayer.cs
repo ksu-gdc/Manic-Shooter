@@ -27,6 +27,13 @@ namespace Manic_Shooter.Classes
         TriplePellet
     }
 
+    public enum MissileUpgradeState
+    {
+        None,
+        SingleMissile,
+        DoubleMissile
+    }
+
     class DefaultPlayer: Sprite, IPlayer, ISprite
     {
         private const float HORIZ_SPEED = 200;
@@ -53,10 +60,12 @@ namespace Manic_Shooter.Classes
 
         private TimeSpan lastShot;
         private GunUpgradeState _currentGunUpgrade;
+        private MissileUpgradeState _currentMissileUpgrade;
 
         public void UpgradeGun(System.Type weaponType)
         {
             bool gunChanged = false;
+            bool missileChanged = false;
 
             if (weaponType == typeof(PelletGun))
             {
@@ -78,10 +87,24 @@ namespace Manic_Shooter.Classes
                     _currentGunUpgrade = GunUpgradeState.TriplePellet;
                 }
             }
+            else if (weaponType == typeof(MissileLauncher))
+            {
+                if (_currentMissileUpgrade != MissileUpgradeState.SingleMissile &&
+                    _currentMissileUpgrade != MissileUpgradeState.DoubleMissile)
+                {
+                    missileChanged = true;
+                    _currentMissileUpgrade = MissileUpgradeState.SingleMissile;
+                }
+                else if (_currentMissileUpgrade == MissileUpgradeState.SingleMissile)
+                {
+                    missileChanged = true;
+                    _currentMissileUpgrade = MissileUpgradeState.DoubleMissile;
+                }
+            }
 
             if (gunChanged)
             {
-                _weapons.Clear();
+                _weapons.RemoveAll(x => x.GetType() == typeof(PelletGun));
                 switch (_currentGunUpgrade)
                 {
                     case GunUpgradeState.SinglePellet:
@@ -95,6 +118,20 @@ namespace Manic_Shooter.Classes
                         _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, -this.Height / 3), new Vector2(0, -350), 0.1d, true));
                         _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 3, -this.Height / 3), new Vector2(-100, -300), 0.1d, true));
                         _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 3, -this.Height / 3), new Vector2(100, -300), 0.1d, true));
+                        break;
+                }
+            }
+            else if (missileChanged)
+            {
+                _weapons.RemoveAll(x => x.GetType() == typeof(MissileLauncher));
+                switch (_currentMissileUpgrade)
+                {
+                    case MissileUpgradeState.SingleMissile:
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(0, 0), new Vector2(0, -200), 0.5d, true));
+                        break;
+                    case MissileUpgradeState.DoubleMissile:
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(-this.Width / 3, 0), new Vector2(0, -200), 0.5d, true));
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(this.Width / 3, 0), new Vector2(0, -200), 0.5d, true));
                         break;
                 }
             }
