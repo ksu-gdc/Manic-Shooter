@@ -213,7 +213,7 @@ namespace Manic_Shooter.Classes
             base.Destroy();
             //Spawn a default droppable
 
-            DefaultDroppable drop = new DefaultDroppable(
+            PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
                 TextureManager.Instance.GetTexture("DefaultProjectile"),
                 this.Position);
             ResourceManager.Instance.AddDroppable(drop);

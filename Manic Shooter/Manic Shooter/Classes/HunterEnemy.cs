@@ -196,7 +196,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon w in _weapons)
             {
-                w.SetReferencePosition(this.centerPosition);
+                w.SetReferencePosition(Position);
             }
         }
 
@@ -222,6 +222,17 @@ namespace Manic_Shooter.Classes
                 _lastPlayerPositions.Dequeue();
             }
             _lastPlayerPositions.Enqueue(position);
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            //Spawn a default droppable
+
+            MissileUpgradeDroppable drop = new MissileUpgradeDroppable(
+                TextureManager.Instance.GetTexture("MissileDroppable"),
+                this.Position);
+            ResourceManager.Instance.AddDroppable(drop);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Manic_Shooter.Interfaces
         /// <summary>
         /// Fire the players current weapon
         /// </summary>
-        void Fire();
+        void Fire(TimeSpan elapsedTime);
 
         /// <summary>
         /// Called when collides with projectile

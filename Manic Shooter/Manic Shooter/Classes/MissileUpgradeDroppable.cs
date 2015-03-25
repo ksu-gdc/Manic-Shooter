@@ -8,16 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Manic_Shooter.Classes
 {
-    class DefaultDroppable:Sprite, IDroppable
+    class MissileUpgradeDroppable:DefaultDroppable
     {
         public float downwardAccel = 100;
         public float maxSpeed = 250;
 
-        public DefaultDroppable(Texture2D texture, Vector2 position)
+        public MissileUpgradeDroppable(Texture2D texture, Vector2 position)
             : base(texture, position)
         {
             this.Velocity = Vector2.Zero;
-            this.hitboxRadius = 10.0F;
         }
 
         public override void Update(GameTime gameTime)
@@ -46,8 +45,12 @@ namespace Manic_Shooter.Classes
             }
         }
 
-        public virtual void ApplyEffect(IPlayer player)
+        public override void ApplyEffect(IPlayer player)
         {
+            //For now default to upgrading pellet gun
+            //We can fix the code later
+            DefaultPlayer dPlayer = (DefaultPlayer)player;
+            dPlayer.UpgradeGun(typeof(MissileLauncher));
         }
     }
 }
