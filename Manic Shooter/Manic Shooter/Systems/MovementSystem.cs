@@ -51,6 +51,13 @@ namespace Manic_Shooter
                 position.Point.X += (int)(movement.VelocityVector.X * speedAdjustment);
                 position.Point.Y += (int)(movement.VelocityVector.Y * speedAdjustment);
 
+                //Player Bounds
+                if(id == ManicShooter.PlayerID)
+                {
+                    position.Point.X = MathHelper.Clamp(position.Point.X, ManicShooter.ScreenSize.Left, ManicShooter.ScreenSize.Right);
+                    position.Point.Y = MathHelper.Clamp(position.Point.Y, ManicShooter.ScreenSize.Top, ManicShooter.ScreenSize.Bottom);
+                }
+
                 PositionComponent[id] = position;
                 MovementComponent[id] = movement;
             }
