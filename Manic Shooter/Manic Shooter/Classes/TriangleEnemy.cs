@@ -32,7 +32,7 @@ namespace Manic_Shooter.Classes
 
         public void Initialize(Vector2 position, Vector2 targetEntryPosition)
         {
-            this.ScaleSize(0.12M);
+            this.ScaleSize(0.5M);
             this.Visible = true;
 
             _maxSpeed = 150;

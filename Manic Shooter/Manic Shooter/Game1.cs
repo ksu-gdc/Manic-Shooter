@@ -94,12 +94,12 @@ namespace Manic_Shooter
             fontRenderer = new FontRenderer(Content, "Times New Roman");
 
             TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
-            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
-            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
-            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
+            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("newEnemy1.png"));
+            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("newEnemy3.png"));
+            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bulletFull.png"));
             TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("bullet1.png"));
-            TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missile1.png"));
-            TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
+            TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
+            TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
 
             //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);
             //hitboxTexture.SetData(new Color[] { Color.Red });
@@ -222,8 +222,8 @@ namespace Manic_Shooter
             //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
-            fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
-            fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
+           // fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
+          //  fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
             if(isPaused)
                 fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
 

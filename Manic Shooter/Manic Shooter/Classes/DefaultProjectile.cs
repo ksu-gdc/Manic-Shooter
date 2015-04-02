@@ -19,7 +19,6 @@ namespace Manic_Shooter.Classes
         {
             this.Damage = damage;
             this.Velocity = velocity;
-            this.ScaleSize(2M);
             this.isPlayerProjectile = isPlayerProjectile;
         }
 
