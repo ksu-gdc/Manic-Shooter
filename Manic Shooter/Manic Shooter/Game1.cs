@@ -222,8 +222,8 @@ namespace Manic_Shooter
             //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
-           // fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
-          //  fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
+            fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
             if(isPaused)
                 fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
 

@@ -63,13 +63,13 @@ namespace Manic_Shooter.Classes
             _weapons = new List<IWeapon>();
 
             //Top Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, -this.Height / 2), new Vector2(-250, -250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, -this.Height / 2), new Vector2(-250, -250), 300d));
             //Top Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, -this.Height / 2), new Vector2(250, -250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, -this.Height / 2), new Vector2(250, -250), 300d));
             //Bottom Left pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, this.Height / 2), new Vector2(-250, 250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 2, this.Height / 2), new Vector2(-250, 250), 300d));
             //Bottom Right pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, this.Height / 2), new Vector2(250, 250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 2, this.Height / 2), new Vector2(250, 250), 300d));
         }
         
         /// <summary>
@@ -81,14 +81,14 @@ namespace Manic_Shooter.Classes
             switch (_state)
             {
                 case EnemyState.Entering:
-                    if (Entering(gameTime.ElapsedGameTime))
+                    if (Entering(gameTime))
                     {
                         _state = EnemyState.Attacking;
                         this.Velocity = (this.Position.X < ManicShooter.ScreenSize.Width / 2) ? new Vector2(_maxSpeed, 0) : new Vector2(-_maxSpeed, 0);
                     }
                     break;
                 case EnemyState.Attacking:
-                    if (HorizontalPasses(gameTime.ElapsedGameTime)) _state = EnemyState.Leaving;
+                    if (HorizontalPasses(gameTime)) _state = EnemyState.Leaving;
                     break;
                 case EnemyState.Leaving:
                     LeaveScreen(gameTime.ElapsedGameTime);
@@ -101,13 +101,13 @@ namespace Manic_Shooter.Classes
             base.Update(gameTime);
         }
 
-        public bool Entering(TimeSpan elapsedTime)
+        public bool Entering(GameTime gameTime)
         {
             Vector2 newVelocity = targetEntryPoint - this.Position;
 
             //If we're close enough to move to the spot in one tick then
             //we can just go there
-            if (newVelocity.LengthSquared() < Math.Pow(_maxSpeed * elapsedTime.TotalSeconds, 2))
+            if (newVelocity.LengthSquared() < Math.Pow(_maxSpeed * gameTime.ElapsedGameTime.TotalSeconds, 2))
             {
                 MoveTo(targetEntryPoint);
                 return true;
@@ -125,7 +125,7 @@ namespace Manic_Shooter.Classes
         /// <param name="elapsedTime">The time elapsed since this sprite was last updated</param>
         /// <returns>Returns true if the move is completed, false otherwise. This is needed
         /// to because this method needs to be called multiple times as the enemy is updated</returns>
-        public bool HorizontalPasses(TimeSpan elapsedTime)
+        public bool HorizontalPasses(GameTime gameTime)
         {
             bool isOnEdge = TextureBox.Right > ManicShooter.ScreenSize.Width || TextureBox.Left < 0;
             if (_screenPasses < _maxPasses)
@@ -143,7 +143,10 @@ namespace Manic_Shooter.Classes
             else
                 return true; //Move has been completed
 
-            Fire(elapsedTime);
+            foreach (IWeapon weapon in _weapons)
+                weapon.Update(gameTime);
+
+            Fire(gameTime.ElapsedGameTime);
 
             return false;
         }
@@ -192,7 +195,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon weapon in _weapons)
             {
-                weapon.Fire(elapsedTime);
+                weapon.Fire();
             }
         }
 

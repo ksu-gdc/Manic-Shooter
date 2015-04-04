@@ -251,7 +251,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon weapon in _weapons)
             {
-                weapon.Fire(timeElapsed);
+                weapon.Fire();
             }
         }
 
@@ -264,6 +264,8 @@ namespace Manic_Shooter.Classes
             }
 
             UpdateWeaponPositions();
+            foreach (IWeapon weapon in _weapons)
+                weapon.Update(gameTime);
 
             if(pstate == PlayerState.Invincible)
             {

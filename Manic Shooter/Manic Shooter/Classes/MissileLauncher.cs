@@ -75,18 +75,16 @@ namespace Manic_Shooter.Classes
             _isPlayerGun = isPlayerGun;
         }
 
-        public void Fire(TimeSpan elapsedTime)
+        public void Fire()
         {
             //First we check the cooldown, if the timer is greater than
             //zero then we shouldn't be firing
             if (_coolDown > 0)
             {
-                //But we still need to decrement it
-                _coolDown -= elapsedTime.TotalSeconds;
                 return;
             }
 
-            Debug.WriteLine("Reference Position = " + _referencePosition.ToString());
+            //Debug.WriteLine("Reference Position = " + _referencePosition.ToString());
             //Otherwise we can go ahead and Fire by creating a new projectile
             ResourceManager.Instance.AddProjectile(
                 new DefaultMissile(TextureManager.Instance.GetTexture("DefaultMissile"), Vector2.Add(_referencePosition, _muzzleOffset), _firingVelocity, 1, _isPlayerGun)
@@ -112,6 +110,14 @@ namespace Manic_Shooter.Classes
         public bool IsCoolingDown()
         {
             return _coolDown > 0;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_coolDown > 0)
+                _coolDown -= gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (_coolDown < 0)
+                _coolDown = 0;
         }
     }
 }

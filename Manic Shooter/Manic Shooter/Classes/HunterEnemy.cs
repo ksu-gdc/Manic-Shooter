@@ -61,7 +61,7 @@ namespace Manic_Shooter.Classes
             _weapons = new List<IWeapon>();
 
             //Point pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, 250), 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, 250), 300d));
         }
 
         public void Fire(TimeSpan elapsedTime)
@@ -76,7 +76,7 @@ namespace Manic_Shooter.Classes
                 foreach(IWeapon w in _weapons)
                 {
                     if (!coolingDown) coolingDown = w.IsCoolingDown();
-                    w.Fire(elapsedTime);
+                    w.Fire();
                 }
                 if(!coolingDown)
                     _shotCount++;
@@ -154,6 +154,9 @@ namespace Manic_Shooter.Classes
             Vector2 playerPosition = GetPlayerPosition();
             playerPosition.Y = this.Position.Y;
             Vector2 newVelocity = playerPosition - this.Position;
+
+            foreach (IWeapon weapon in _weapons)
+                weapon.Update(gameTime);
 
             Fire(gameTime.ElapsedGameTime);
 
