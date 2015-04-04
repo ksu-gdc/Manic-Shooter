@@ -137,6 +137,7 @@ namespace Manic_Shooter.Classes
             }
 
             this.Velocity = new Vector2((float)Math.Cos(angle) * vel, (float)Math.Sin(angle) * vel);
+            this._rotation = angle - (float)Math.PI / 2;// *180 / (float)Math.PI;
 
             //var transformed = Vector2.Transform(dir, Matrix.CreateRotationX(angle));
            // direction = new Point((int)dir.X, (int)dir.Y);
