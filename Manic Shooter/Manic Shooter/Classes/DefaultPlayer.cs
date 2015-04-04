@@ -363,7 +363,7 @@ namespace Manic_Shooter.Classes
             if (lives <= 0)
             {
                 this.EnableKeyboardEvents(false);
-                ManicShooter.GameState = ManicShooter.gameStates.GameOver;
+                //ManicShooter.GameState = ManicShooter.gameStates.GameOver;
                 base.Destroy();
             }
             else
