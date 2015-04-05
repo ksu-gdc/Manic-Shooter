@@ -43,7 +43,8 @@ namespace Manic_Shooter
 
         private int MenuIndex = 0;
 
-        public static gameStates GameState = gameStates.Play;
+        public gameStates GameState { set { _gameState = value; GameStateSwitched(); } get { return _gameState; } }
+        public gameStates _gameState = gameStates.Menu;
 
         public ManicShooter()
             : base()
@@ -101,12 +102,12 @@ namespace Manic_Shooter
             fontRenderer = new FontRenderer(Content, "Times New Roman");
 
             TextureManager.Instance.AddTexture("DefaultPlayer", Content.Load<Texture2D>("player2.png"));
-            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("enemy1.png"));
-            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
-            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bullet1.png"));
+            TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("newEnemy1.png"));
+            TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("newEnemy3.png"));
+            TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bulletFull.png"));
             TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("bullet1.png"));
-            TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missile1.png"));
-            TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("Enemy_placeholder"));
+            TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
+            TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
 
             //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);
             //hitboxTexture.SetData(new Color[] { Color.Red });
@@ -191,12 +192,98 @@ namespace Manic_Shooter
             // TODO: Add your update logic here
             ResourceManager.Instance.Update(gameTime);
 
+            if (ResourceManager.Instance.ActivePlayerList.Count == 0)
+            {
+                this.GameState = gameStates.GameOver;
+            }
+
             base.Update(gameTime);
         }
 
+        bool _menuUpPressed = false;
+        bool _menuDownPressed = false;
+        bool _menuEnterPressed = false;
+
         private void UpdateMenu(GameTime gameTime)
         {
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveUp))
+            {
+                if (!_menuUpPressed)
+                {
+                    _menuUpPressed = true;
+                    MenuIndex--;
+                    if (MenuIndex < 0)
+                        MenuIndex = 2;
+                }
+            }
+            else
+            {
+                if (_menuUpPressed)
+                {
+                    _menuUpPressed = false;
+                }
+            }
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveDown))
+            {
+                if (!_menuDownPressed)
+                {
+                    _menuDownPressed = true;
+                    MenuIndex++;
+                    if (MenuIndex > 2)
+                        MenuIndex = 0;
+                }
+            }
+            else
+            {
+                if (_menuDownPressed)
+                {
+                    _menuDownPressed = false;
+                }
+            }
+            
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.Shoot))
+            {
+                if (!_menuEnterPressed)
+                {
+                    _menuEnterPressed = true;
 
+                    ParseMenuAction();
+                }
+            }
+            else
+            {
+                if (_menuEnterPressed)
+                {
+                    _menuEnterPressed = false;
+                }
+            }
+        }
+
+        private void ParseMenuAction()
+        {
+            if (this.MenuState == MenuStates.Main)
+            {
+                if (MenuIndex == 0)
+                {
+                    //Start game
+                    GameState = gameStates.Play;
+                }
+                else if (MenuIndex == 1)
+                {
+                    //About page
+                    this.MenuState = MenuStates.About;
+                }
+                else if (MenuIndex == 2)
+                {
+                    //Exit
+                    this.Exit();
+                }
+            }
+            else if (this.MenuState == MenuStates.About)
+            {
+                MenuIndex = 1;
+                this.MenuState = MenuStates.Main;
+            }
         }
 
         private void UpdateGameOver(GameTime gameTime)
@@ -247,13 +334,21 @@ namespace Manic_Shooter
         {
             spriteBatch.Begin();
 
-            fontRenderer.DrawText(spriteBatch, 100, 100, "Play Game");
-            fontRenderer.DrawText(spriteBatch, 100, 200, "About");
-            fontRenderer.DrawText(spriteBatch, 100, 300, "Quit");
+            if (this.MenuState == MenuStates.Main)
+            {
+                fontRenderer.DrawText(spriteBatch, 100, 100, "Play Game");
+                fontRenderer.DrawText(spriteBatch, 100, 200, "About");
+                fontRenderer.DrawText(spriteBatch, 100, 300, "Quit");
 
 
-            fontRenderer.DrawText(spriteBatch, 80, 100 + 100 * MenuIndex, ">");
-
+                fontRenderer.DrawText(spriteBatch, 80, 100 + 100 * MenuIndex, ">");
+            }
+            else if (this.MenuState == MenuStates.About)
+            {
+                fontRenderer.DrawText(spriteBatch, 100, 100, "About page");
+                fontRenderer.DrawText(spriteBatch, 100, 200, "Populate later");
+                fontRenderer.DrawText(spriteBatch, 100, 300, "Game by Nick Boen and Matthew McHaney");
+            }
             spriteBatch.End();
         }
 
@@ -329,9 +424,20 @@ namespace Manic_Shooter
             MenuIndex = 0;
         }
 
+        private Timer gameOverTimer;
+
         private void InitGameOverState()
         {
+            gameOverTimer = new Timer();
+            gameOverTimer.Interval = 3000;
+            gameOverTimer.Elapsed += new ElapsedEventHandler(gameOverTimer_Elapsed);
+            gameOverTimer.Start();
+        }
 
+        private void gameOverTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            gameOverTimer.Stop();
+            GameState = gameStates.Menu;
         }
     }
 }

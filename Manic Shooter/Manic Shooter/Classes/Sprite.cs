@@ -22,6 +22,8 @@ namespace Manic_Shooter.Classes
 
         protected bool _drawHitbox = false;
 
+        protected float _rotation = 0.0f;
+
         /// <summary>
         /// The current texture to be rendered
         /// </summary>
@@ -94,14 +96,28 @@ namespace Manic_Shooter.Classes
         /// <param name="spriteBatch">The spritebatch to use for rendering</param>
         public virtual void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.TextureBox, SpriteTint);
-
-            if(this._drawHitbox)
+            if(_rotation != 0.0f)
             {
-                Vector2 hitboxCenter = this.HitBoxCenter;
-                Texture2D texture = TextureManager.Instance.GetTexture("Hitbox");
-                spriteBatch.Draw(texture, hitboxCenter - new Vector2(hitboxRadius, hitboxRadius),null, new Color(255, 0, 0, 120), 0, Vector2.Zero, hitboxRadius * 2 / texture.Width, SpriteEffects.None, 1);
+                Vector2 origin = new Vector2((float)texturebox.Width / 2, (float)texturebox.Height / 2);
+                spriteBatch.Draw(this.Texture, null, this.TextureBox, null, origin, _rotation, null, SpriteTint);
+                if (this._drawHitbox)
+                {
+                    Vector2 hitboxCenter = this.HitBoxCenter;
+                    Texture2D texture = TextureManager.Instance.GetTexture("Hitbox");
+                    spriteBatch.Draw(texture, hitboxCenter - new Vector2(hitboxRadius, hitboxRadius), null, new Color(255, 0, 0, 120), _rotation, origin, hitboxRadius * 2 / texture.Width, SpriteEffects.None, 1);
+                }
             }
+            else
+            {
+                spriteBatch.Draw(this.Texture, this.TextureBox, SpriteTint);
+                if (this._drawHitbox)
+                {
+                    Vector2 hitboxCenter = this.HitBoxCenter;
+                    Texture2D texture = TextureManager.Instance.GetTexture("Hitbox");
+                    spriteBatch.Draw(texture, hitboxCenter - new Vector2(hitboxRadius, hitboxRadius), null, new Color(255, 0, 0, 120), 0, Vector2.Zero, hitboxRadius * 2 / texture.Width, SpriteEffects.None, 1);
+                }
+            }
+            
 
             if (this._hurtFlashing)
             {

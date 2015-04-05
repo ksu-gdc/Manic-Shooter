@@ -31,7 +31,7 @@ namespace Manic_Shooter.Classes
 
         public void Initialize(Vector2 position, Vector2 targetEntryPosition)
         {
-            this.ScaleSize(0.12M);
+            this.ScaleSize(0.5M);
             this.Visible = true;
 
             _maxSpeed = 150;
@@ -59,14 +59,14 @@ namespace Manic_Shooter.Classes
             float yNormal = normalVector.Y;
 
             //Point pellet gun
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, 250), 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, -250), 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(250, 0), 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-250,0), 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(xNormal, yNormal)*250, 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-xNormal, yNormal)*250, 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(xNormal, -yNormal)*250, 0.3d));
-            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-xNormal, -yNormal)*250, 0.3d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, 250), 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(0, -250), 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(250, 0), 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-250, 0), 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(xNormal, yNormal) * 250, 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-xNormal, yNormal) * 250, 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(xNormal, -yNormal) * 250, 300d));
+            _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, this.Height / 2), new Vector2(-xNormal, -yNormal) * 250, 300d));
             
         }
 
@@ -79,7 +79,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon weapon in _weapons)
             {
-                weapon.Fire(elapsedTime);
+                weapon.Fire();
             }
         }
 
@@ -178,7 +178,7 @@ namespace Manic_Shooter.Classes
         {
             foreach (IWeapon weapon in _weapons)
             {
-                weapon.Fire(elapsedTime);
+                weapon.Fire();
             }
         }
 

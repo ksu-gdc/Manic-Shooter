@@ -108,16 +108,16 @@ namespace Manic_Shooter.Classes
                 switch (_currentGunUpgrade)
                 {
                     case GunUpgradeState.SinglePellet:
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, -this.Height / 3), new Vector2(0, -350), 0.1d, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, -this.Height / 3), new Vector2(0, -350), 100, true));
                         break;
                     case GunUpgradeState.DoublePellet:
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 3, -this.Height / 3), new Vector2(0, -350), 0.1d, true));
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 3, -this.Height / 3), new Vector2(0, -350), 0.1d, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 3, -this.Height / 3), new Vector2(0, -350), 100, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 3, -this.Height / 3), new Vector2(0, -350), 100, true));
                         break;
                     case GunUpgradeState.TriplePellet:
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, -this.Height / 3), new Vector2(0, -350), 0.1d, true));
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 3, -this.Height / 3), new Vector2(-100, -300), 0.1d, true));
-                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 3, -this.Height / 3), new Vector2(100, -300), 0.1d, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(0, -this.Height / 3), new Vector2(0, -350), 100, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(-this.Width / 3, -this.Height / 3), new Vector2(-100, -300), 100, true));
+                        _weapons.Add(new PelletGun(this.centerPosition, new Vector2(this.Width / 3, -this.Height / 3), new Vector2(100, -300), 100, true));
                         break;
                 }
             }
@@ -127,11 +127,11 @@ namespace Manic_Shooter.Classes
                 switch (_currentMissileUpgrade)
                 {
                     case MissileUpgradeState.SingleMissile:
-                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(0, 0), new Vector2(0, -200), 0.5d, true));
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(0, 0), new Vector2(0, -200), 500, true));
                         break;
                     case MissileUpgradeState.DoubleMissile:
-                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(-this.Width / 3, 0), new Vector2(0, -200), 0.5d, true));
-                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(this.Width / 3, 0), new Vector2(0, -200), 0.5d, true));
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(-this.Width / 3, 0), new Vector2(0, -200), 500, true));
+                        _weapons.Add(new MissileLauncher(this.centerPosition, new Vector2(this.Width / 3, 0), new Vector2(0, -200), 500, true));
                         break;
                 }
             }
@@ -247,11 +247,11 @@ namespace Manic_Shooter.Classes
             this.Velocity = currentVelocity;
         }
 
-        public void Fire(TimeSpan timeElapsed)
+        public void Fire()
         {
             foreach (IWeapon weapon in _weapons)
             {
-                weapon.Fire(timeElapsed);
+                weapon.Fire();
             }
         }
 
@@ -264,6 +264,8 @@ namespace Manic_Shooter.Classes
             }
 
             UpdateWeaponPositions();
+            foreach (IWeapon weapon in _weapons)
+                weapon.Update(gameTime);
 
             if(pstate == PlayerState.Invincible)
             {
@@ -271,12 +273,11 @@ namespace Manic_Shooter.Classes
                 this._hurtFlashing = true;
             }
 
-            if (_shootWeapon)
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.Shoot))//_shootWeapon)
             {
-                TimeSpan timeSpan = (lastShot == null ? gameTime.ElapsedGameTime : gameTime.TotalGameTime - lastShot);
-                Fire(timeSpan);
+                Fire();
                 lastShot = gameTime.TotalGameTime;
-                _shootWeapon = false;
+                //_shootWeapon = false;
             }
 
             if(timer > 0)
@@ -289,8 +290,8 @@ namespace Manic_Shooter.Classes
                 if(pstate == PlayerState.Dead)
                 {
                     pstate = PlayerState.Invincible;
-                    EnableKeyboardEvents(true);
-                    this.Velocity = Vector2.Zero;
+                    //EnableKeyboardEvents(true);
+                    ResetVelocityOnRevive();
                     timer = maxInvincibleTime;
                 }
                 else if(pstate == PlayerState.Invincible)
@@ -303,6 +304,19 @@ namespace Manic_Shooter.Classes
             //We can also use gameTime.ElapsedGameTime.TotalSeconds to achieve the same value without the division
             //this.Position += this.Velocity * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000);
 
+        }
+
+        private void ResetVelocityOnRevive()
+        {
+            this.Velocity = Vector2.Zero;
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveUp))
+                gameKey_moveUpPressed(Keys.A);
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveDown))
+                gameKey_moveDownPressed(Keys.A);
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveLeft))
+                gameKey_moveLeftPressed(Keys.A);
+            if (KeyboardManager.Instance.IsKeyDown(KeyboardManager.GameKeys.MoveRight))
+                gameKey_moveRightPressed(Keys.A);
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -361,7 +375,7 @@ namespace Manic_Shooter.Classes
             if (lives <= 0)
             {
                 this.EnableKeyboardEvents(false);
-                ManicShooter.GameState = ManicShooter.gameStates.GameOver;
+                //ManicShooter.GameState = ManicShooter.gameStates.GameOver;
                 base.Destroy();
             }
             else
