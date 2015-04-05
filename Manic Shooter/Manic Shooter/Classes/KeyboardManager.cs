@@ -85,6 +85,9 @@ namespace Manic_Shooter.Classes
             SpawnDefaultEnemy = 6,
             SpawnTriangleEnemy = 7,
             SpawnHunterEnemy = 8,
+            SpawnMobSet1 = 9,
+            SpawnMobSet2 = 10,
+            SpawnMobSet3 = 11,
         }
 
         /// <summary>
@@ -102,13 +105,16 @@ namespace Manic_Shooter.Classes
             Keys.D1,
             Keys.D2,
             Keys.D3,
+            Keys.NumPad1,
+            Keys.NumPad2,
+            Keys.NumPad3,
         };
 
         /// <summary>
         /// A count of all GameKeys. Need to update this
         ///  when adding in a new GameKey!
         /// </summary>
-        public const int GameKeysCount = 9;
+        public const int GameKeysCount = 12;
 
         /// <summary>
         /// A Keyboard event. When a GameKey is pressed or released,

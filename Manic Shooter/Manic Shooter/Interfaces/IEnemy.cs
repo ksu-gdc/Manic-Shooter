@@ -13,7 +13,7 @@ namespace Manic_Shooter.Interfaces
         Leaving
     }
 
-    interface IEnemy:ISprite
+    public interface IEnemy:ISprite
     {
         EnemyState State { get; }
 

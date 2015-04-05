@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Manic_Shooter.Interfaces
 {
-    interface ISprite
+    public interface ISprite
     {
         /// <summary>
         /// The current texture to be rendered

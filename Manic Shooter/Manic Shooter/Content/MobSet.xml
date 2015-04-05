@@ -1,0 +1,34 @@
+<MobsetCollection>
+  <Mobset>
+    <Mob type="Slider" health="3" spawnPositionX="-50" spawnPositionY="-50"></Mob>
+    <Mob type="Popper" health="3" spawnPositionX="-50" spawnPositionY="-50"></Mob>
+    <Mob type="Hunter" health="3" spawnPositionX="-50" spawnPositionY="-50"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+  </Mobset>
+</MobsetCollection>

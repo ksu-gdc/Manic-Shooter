@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using Manic_Shooter.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,12 +29,11 @@ namespace Manic_Shooter.Classes
         public DefaultEnemy(Texture2D texture, Vector2 position, int health)
             : base(texture, position, health)
         {
-            Random rng = new Random();
 
             //Finds a random point on the x axis between the left and right side of the screen
             //and a random point on the y axis between the top and the midpoint of the screen
             //with some padding for both
-            Vector2 randomTargetEntryPoint = new Vector2(rng.Next(50,ManicShooter.ScreenSize.Width-50), rng.Next(50,ManicShooter.ScreenSize.Height/2-50));
+            Vector2 randomTargetEntryPoint = new Vector2(ManicShooter.RNG.Next(50,ManicShooter.ScreenSize.Width-50), ManicShooter.RNG.Next(50,ManicShooter.ScreenSize.Height/2-50));
 
             InitializeDefaultEnemy(randomTargetEntryPoint);
         }
@@ -92,6 +92,8 @@ namespace Manic_Shooter.Classes
                     break;
                 case EnemyState.Leaving:
                     LeaveScreen(gameTime.ElapsedGameTime);
+
+                    if (this.IsOffScreen()) this.Destroy();
                     break;
             }
 

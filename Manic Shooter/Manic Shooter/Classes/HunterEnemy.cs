@@ -25,8 +25,7 @@ namespace Manic_Shooter.Classes
         public HunterEnemy(Texture2D texture, Vector2 position, int health)
             :base(texture, position, health)
         {
-            Random rng = new Random();
-            Vector2 randomPosition = new Vector2(rng.Next(0, ManicShooter.ScreenSize.Width), rng.Next(0,ManicShooter.ScreenSize.Height/3));
+            Vector2 randomPosition = new Vector2(ManicShooter.RNG.Next(0, ManicShooter.ScreenSize.Width), ManicShooter.RNG.Next(0,ManicShooter.ScreenSize.Height/3));
             Initialize(randomPosition);
         }
 
@@ -123,6 +122,8 @@ namespace Manic_Shooter.Classes
                     break;
                 case EnemyState.Leaving:
                     Leaving(gameTime);
+
+                    if (this.IsOffScreen()) this.Destroy();
                     break;
             }
 

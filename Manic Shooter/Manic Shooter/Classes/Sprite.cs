@@ -266,6 +266,7 @@ namespace Manic_Shooter.Classes
             // we're using no animation
             this.Visible = false;
             this.IsActive = false;
+            this.Health = 0;
 
         }
     }
