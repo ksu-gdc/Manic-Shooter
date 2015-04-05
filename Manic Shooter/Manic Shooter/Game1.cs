@@ -124,7 +124,10 @@ namespace Manic_Shooter
             //enemy1.ScaleSize((decimal)2);
             //projectile1.ScaleSize((decimal)0.5);
 
+            //HACK: pretty jank way of getting the MobSpawner singleton to instantiate itself
             MobSpawner.Instance.GetType();
+
+            MobSpawner.Instance.SetSpawnerMode(SpawnerMode.Constant);
 
             // TODO: use this.Content to load your game content here
         }

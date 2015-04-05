@@ -122,6 +122,8 @@ namespace Manic_Shooter.Classes
                     break;
                 case EnemyState.Leaving:
                     Leaving(gameTime);
+
+                    if (this.IsOffScreen()) this.Destroy();
                     break;
             }
 

@@ -164,7 +164,7 @@ namespace Manic_Shooter.Classes
                             Random rng = new Random();
                             int newMobSetIndex = rng.Next(mobSetList.Count);
 
-                            activeMobSets.Add(mobSetList[newMobSetIndex]);
+                            this.SpawnMobSet(newMobSetIndex);
                         }
 
                         break;
@@ -219,11 +219,11 @@ namespace Manic_Shooter.Classes
         {
             foreach(IEnemy e in spawnList)
             {
-                if(e != null && e.Health <= 0)
-                    return true;
+                if(e != null && e.Health > 0)
+                    return false;
             }
 
-            return false;
+            return true;
         }
 
         public void RemoveEnemy(MobDefinition enemy)
