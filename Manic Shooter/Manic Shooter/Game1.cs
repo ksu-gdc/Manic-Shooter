@@ -20,6 +20,7 @@ namespace Manic_Shooter
     {
         public static Rectangle ScreenSize;
         public static Vector2 playerPosition;
+        public static Random RNG;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -58,10 +59,16 @@ namespace Manic_Shooter
             Content.RootDirectory = "Content";
             inGameTotalTime = new GameTime();
 
+            RNG = new Random();
+
             KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.Pause, gameKey_pausePressed);
             KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnDefaultEnemy, gameKey_spawnDefault);
             KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnTriangleEnemy, gameKey_spawnTriangle);
             KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnHunterEnemy, gameKey_spawnHunter);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnMobSet1, gameKey_spawnMob1);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnMobSet2, gameKey_spawnMob2);
+            KeyboardManager.Instance.AddGameKeyPressed(KeyboardManager.GameKeys.SpawnMobSet3, gameKey_spawnMob3);
+
         }
 
         private void SpawnEnemy()
@@ -117,6 +124,8 @@ namespace Manic_Shooter
             //enemy1.ScaleSize((decimal)2);
             //projectile1.ScaleSize((decimal)0.5);
 
+            MobSpawner.Instance.GetType();
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -140,6 +149,7 @@ namespace Manic_Shooter
                 Exit();
 
             KeyboardManager.Instance.Update(gameTime);
+            MobSpawner.Instance.Update(gameTime);
 
             playerPosition = player1.Position;
 
@@ -271,6 +281,21 @@ namespace Manic_Shooter
         public void gameKey_spawnHunter(Keys key)
         {
             EnemySpawner.Instance.SpawnHunterEnemy();
+        }
+
+        public void gameKey_spawnMob1(Keys Key)
+        {
+            MobSpawner.Instance.SpawnMobSet(0);
+        }
+
+        public void gameKey_spawnMob2(Keys Key)
+        {
+            MobSpawner.Instance.SpawnMobSet(1);
+        }
+
+        public void gameKey_spawnMob3(Keys key)
+        {
+            MobSpawner.Instance.SpawnMobSet(2);
         }
 
         private void GameStateSwitched()

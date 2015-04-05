@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\MissileUpgradeDroppable.cs" />
+    <Compile Include="Classes\MobSpawner.cs" />
     <Compile Include="Classes\PelletUpgradeDroppable.cs" />
     <Compile Include="Classes\DefaultMissile.cs" />
     <Compile Include="Classes\MissileLauncher.cs" />
@@ -82,6 +83,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\missile1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MobSet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\player2.png">

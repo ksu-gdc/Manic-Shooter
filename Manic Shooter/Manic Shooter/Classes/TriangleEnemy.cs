@@ -19,8 +19,7 @@ namespace Manic_Shooter.Classes
         public TriangleEnemy(Texture2D texture, Vector2 position, int health)
             :base(texture, position, health)
         {
-            Random rng = new Random();
-            Vector2 randomPosition = new Vector2(rng.Next(pathBuffer, ManicShooter.ScreenSize.Width - pathBuffer), -20);
+            Vector2 randomPosition = new Vector2(ManicShooter.RNG.Next(pathBuffer, ManicShooter.ScreenSize.Width - pathBuffer), -20);
             Initialize(position, randomPosition);
         }
 
@@ -44,7 +43,7 @@ namespace Manic_Shooter.Classes
             Random rng = new Random();
             int screenQuarterWidth = (ManicShooter.ScreenSize.Width - 100) / 4;
             int verticalTravel = rng.Next((2 * ManicShooter.ScreenSize.Height) / 3) + ManicShooter.ScreenSize.Height/3;
-            if (this.pointPosition.X > (2 * screenQuarterWidth) + 50)//Check if ship is starting on the right side of the screen
+            if (this.targetEntryPosition.X > (2 * screenQuarterWidth) + 50)//Check if ship is starting on the right side of the screen
                 this.pointPosition = new Vector2(this.targetEntryPosition.X - screenQuarterWidth, verticalTravel);
             else
                 this.pointPosition = new Vector2(this.targetEntryPosition.X + screenQuarterWidth, verticalTravel);
