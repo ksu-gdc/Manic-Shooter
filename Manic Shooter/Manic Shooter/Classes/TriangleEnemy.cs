@@ -41,7 +41,8 @@ namespace Manic_Shooter.Classes
             this.targetEntryPosition = targetEntryPosition;
             
             int screenQuarterWidth = (ManicShooter.ScreenSize.Width - 100) / 4;
-            int verticalTravel = ManicShooter.RNG.Next((2 * ManicShooter.ScreenSize.Height) / 3) + ManicShooter.ScreenSize.Height/3;
+            int verticalTravel = ManicShooter.RNG.Next((ManicShooter.ScreenSize.Height) / 3) + (int)this.Height;// +ManicShooter.ScreenSize.Height / 4;
+
             if (this.targetEntryPosition.X > (2 * screenQuarterWidth) + 50)//Check if ship is starting on the right side of the screen
                 this.pointPosition = new Vector2(this.targetEntryPosition.X - screenQuarterWidth, verticalTravel);
             else
@@ -199,10 +200,15 @@ namespace Manic_Shooter.Classes
             base.Destroy();
             //Spawn a default droppable
 
-            PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
-                TextureManager.Instance.GetTexture("DefaultProjectile"),
-                this.Position);
-            ResourceManager.Instance.AddDroppable(drop);
+            int dropChance = ManicShooter.RNG.Next(100) + 1;
+
+            if (dropChance <= this.randomDropChance)
+            {
+                PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
+                    TextureManager.Instance.GetTexture("DefaultProjectile"),
+                    this.Position);
+                ResourceManager.Instance.AddDroppable(drop);
+            }
         }
     }
 }

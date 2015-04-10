@@ -39,6 +39,7 @@ namespace Manic_Shooter.Classes
         {
             this.ScaleSize(0.5M);
             this.Visible = true;
+            this.randomDropChance = 10;
 
             _maxSpeed = 150;
 
@@ -233,10 +234,15 @@ namespace Manic_Shooter.Classes
             base.Destroy();
             //Spawn a default droppable
 
-            MissileUpgradeDroppable drop = new MissileUpgradeDroppable(
-                TextureManager.Instance.GetTexture("MissileDroppable"),
-                this.Position);
-            ResourceManager.Instance.AddDroppable(drop);
+            int dropChance = ManicShooter.RNG.Next(100) + 1;
+
+            if (dropChance <= this.randomDropChance)
+            {
+                MissileUpgradeDroppable drop = new MissileUpgradeDroppable(
+                    TextureManager.Instance.GetTexture("MissileDroppable"),
+                    this.Position);
+                ResourceManager.Instance.AddDroppable(drop);
+            }
         }
     }
 }
