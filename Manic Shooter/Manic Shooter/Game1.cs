@@ -486,6 +486,7 @@ namespace Manic_Shooter
             {
                 MediaPlayer.Play(song);
             }
+
             MediaPlayer.IsRepeating = true;
         }
 
