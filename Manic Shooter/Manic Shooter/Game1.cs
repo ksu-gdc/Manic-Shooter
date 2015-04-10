@@ -384,7 +384,23 @@ namespace Manic_Shooter
             {
                 if (isPaused)
                 {
-                    MediaPlayer.Resume();
+                    try
+                    {
+                        MediaPlayer.Resume();
+                    }
+                    catch
+                    {
+
+                        MediaPlayer.Stop();
+                        try
+                        {
+                            MediaPlayer.Play(song);
+                        }
+                        catch
+                        {
+                            MediaPlayer.Play(song);
+                        }
+                    }
                 }
                 else
                 {
@@ -447,8 +463,13 @@ namespace Manic_Shooter
             if (player1.Lives == 0)
             {
                 player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
-            }
+                ResourceManager.Instance.AddPlayer(player1);
 
+                player1.ScaleSize((decimal)0.5);
+
+                MobSpawner.Instance.Reset();
+                MobSpawner.Instance.SetSpawnerMode(SpawnerMode.Constant);
+            }
             try
             {
                 MediaPlayer.Play(song);
@@ -478,19 +499,14 @@ namespace Manic_Shooter
             gameOverTimer.Start();
 
             MediaPlayer.Stop();
+
+            ResourceManager.Instance.ResetAll();
         }
 
         private void gameOverTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             gameOverTimer.Stop();
             GameState = gameStates.Menu;
-        }
-        protected override void OnExiting(Object sender, EventArgs args)
-        {
-            base.OnExiting(sender, args);
-
-            // Stop the threads
-            song.Dispose();
         }
     }
 }

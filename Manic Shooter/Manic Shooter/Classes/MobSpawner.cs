@@ -177,6 +177,14 @@ namespace Manic_Shooter.Classes
                     activeMobSets.RemoveAt(i--);
             }
         }
+        
+        public void Reset()
+        {
+            for (int i = 0; i < activeMobSets.Count; i++)
+            {
+                activeMobSets[i].Reset();
+            }
+        }
 
     }
 
@@ -230,6 +238,11 @@ namespace Manic_Shooter.Classes
         {
             if (!mobList.Contains(enemy))
                 mobList.Remove(enemy);
+        }
+
+        public void Reset()
+        {
+            spawnList.Clear();
         }
     }
 
