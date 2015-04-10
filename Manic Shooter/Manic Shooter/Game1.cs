@@ -119,7 +119,7 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
 
-            song = Content.Load<Song>("597237_Lets-Fight-Loop.xnb");
+            song = Content.Load<Song>("597237_Lets-Fight-Loop");
 
             titleTexture = Content.Load<Texture2D>("title.png");
             menuSelectionTexture = TextureManager.Instance.GetTexture("DefaultPlayer");
@@ -446,9 +446,18 @@ namespace Manic_Shooter
             player1.ClearScore();
             if (player1.Lives == 0)
             {
-                new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+                player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             }
-            MediaPlayer.Play(song);
+
+            try
+            {
+                MediaPlayer.Play(song);
+            }
+            catch
+            {
+                MediaPlayer.Play(song);
+            }
+
             MediaPlayer.IsRepeating = true;
         }
 
@@ -475,6 +484,13 @@ namespace Manic_Shooter
         {
             gameOverTimer.Stop();
             GameState = gameStates.Menu;
+        }
+        protected override void OnExiting(Object sender, EventArgs args)
+        {
+            base.OnExiting(sender, args);
+
+            // Stop the threads
+            song.Dispose();
         }
     }
 }

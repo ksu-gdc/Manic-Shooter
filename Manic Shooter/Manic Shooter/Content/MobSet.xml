@@ -31,4 +31,98 @@
     <Mob type="Popper" health="3"></Mob>
     <Mob type="Popper" health="3"></Mob>
   </Mobset>
+  <Mobset>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Popper" health="20"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Popper" health="7"></Mob>
+    <Mob type="Popper" health="7"></Mob>
+    <Mob type="Popper" health="7"></Mob>
+    <Mob type="Popper" health="7"></Mob>
+    <Mob type="Popper" health="7"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Slider" health="3"></Mob>
+    <Mob type="Hunter" health="20"></Mob>
+  </Mobset>
+  <Mobset>
+    <Mob type="Hunter" health="20"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+    <Mob type="Popper" health="3"></Mob>
+  </Mobset>
 </MobsetCollection>
