@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using TextPackage;
 using Manic_Shooter.Classes;
 using System.Timers;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace Manic_Shooter
@@ -38,6 +39,8 @@ namespace Manic_Shooter
         Texture2D menuSelectionTexture;
 
         GameTime inGameTotalTime;
+
+        protected Song song;
 
         public enum gameStates { Menu, Play, GameOver };
 
@@ -115,6 +118,8 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("ScoreDroppable", Content.Load<Texture2D>("scoreUpgrade.png"));
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
+
+            song = Content.Load<Song>("597237_Lets-Fight-Loop.xnb");
 
             titleTexture = Content.Load<Texture2D>("title.png");
             menuSelectionTexture = TextureManager.Instance.GetTexture("DefaultPlayer");
@@ -376,7 +381,17 @@ namespace Manic_Shooter
         public void gameKey_pausePressed(Keys key)
         {
             if (GameState == gameStates.Play)
+            {
+                if (isPaused)
+                {
+                    MediaPlayer.Resume();
+                }
+                else
+                {
+                    MediaPlayer.Pause();
+                }
                 isPaused = !isPaused;
+            }
             //This will create a bug where the timer updates bad times from unpause to pause
         }
 
@@ -433,6 +448,8 @@ namespace Manic_Shooter
             {
                 new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
             }
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
         }
 
         private void InitMenuState()
@@ -450,6 +467,8 @@ namespace Manic_Shooter
             gameOverTimer.Interval = 3000;
             gameOverTimer.Elapsed += new ElapsedEventHandler(gameOverTimer_Elapsed);
             gameOverTimer.Start();
+
+            MediaPlayer.Stop();
         }
 
         private void gameOverTimer_Elapsed(object sender, ElapsedEventArgs e)
