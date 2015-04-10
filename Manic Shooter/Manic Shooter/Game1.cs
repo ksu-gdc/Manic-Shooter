@@ -33,6 +33,10 @@ namespace Manic_Shooter
         DefaultProjectile projectile1;
 
         bool isPaused = false;
+
+        Texture2D titleTexture;
+        Texture2D menuSelectionTexture;
+
         GameTime inGameTotalTime;
 
         public enum gameStates { Menu, Play, GameOver };
@@ -105,9 +109,15 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("newEnemy1.png"));
             TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("newEnemy3.png"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bulletFull.png"));
-            TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("bullet1.png"));
+            TextureManager.Instance.AddTexture("PlayerProjectile", Content.Load<Texture2D>("playerBulletFull.png"));
+            TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("missileUpgrade.png"));
+            TextureManager.Instance.AddTexture("GunDroppable", Content.Load<Texture2D>("gunUpgrade.png"));
+            TextureManager.Instance.AddTexture("ScoreDroppable", Content.Load<Texture2D>("scoreUpgrade.png"));
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
+
+            titleTexture = Content.Load<Texture2D>("title.png");
+            menuSelectionTexture = TextureManager.Instance.GetTexture("DefaultPlayer");
 
             //Texture2D hitboxTexture = new Texture2D(GraphicsDevice, 1, 1);
             //hitboxTexture.SetData(new Color[] { Color.Red });
@@ -323,9 +333,10 @@ namespace Manic_Shooter
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 80, 20, "Score = " + player1.Score);
             fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
             if(isPaused)
-                fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
+                fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 30, ScreenSize.Height / 2 - 10, "Pause");
 
             spriteBatch.End();
         }
@@ -336,18 +347,20 @@ namespace Manic_Shooter
 
             if (this.MenuState == MenuStates.Main)
             {
-                fontRenderer.DrawText(spriteBatch, 100, 100, "Play Game");
-                fontRenderer.DrawText(spriteBatch, 100, 200, "About");
-                fontRenderer.DrawText(spriteBatch, 100, 300, "Quit");
+                spriteBatch.Draw(titleTexture, new Vector2(100, 40), Color.White);
 
+                fontRenderer.DrawText(spriteBatch, 140, 150, "Play Game");
+                fontRenderer.DrawText(spriteBatch, 140, 200, "About");
+                fontRenderer.DrawText(spriteBatch, 140, 250, "Quit");
 
-                fontRenderer.DrawText(spriteBatch, 80, 100 + 100 * MenuIndex, ">");
+                float rotationFloat = (float)(Math.PI / 2);
+                spriteBatch.Draw(menuSelectionTexture, position: new Vector2(134, 158 + 50 * MenuIndex), rotation: rotationFloat, scale: new Vector2(0.25f, 0.25f));
             }
             else if (this.MenuState == MenuStates.About)
             {
-                fontRenderer.DrawText(spriteBatch, 100, 100, "About page");
-                fontRenderer.DrawText(spriteBatch, 100, 200, "Populate later");
-                fontRenderer.DrawText(spriteBatch, 100, 300, "Game by Nick Boen and Matthew McHaney");
+                fontRenderer.DrawText(spriteBatch, 100, 100, "Manic Shooter");
+                fontRenderer.DrawText(spriteBatch, 120, 200, "Made in the KSU Game Development Club");
+                fontRenderer.DrawText(spriteBatch, 140, 300, "By Nick Boen and Matthew McHaney");
             }
             spriteBatch.End();
         }
@@ -355,7 +368,8 @@ namespace Manic_Shooter
         private void DrawGameOver(GameTime gameTime)
         {
             spriteBatch.Begin();
-            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 50, ScreenSize.Height / 2 - 5, "Game Over");
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 50, ScreenSize.Height / 2 - 10, "Game Over");
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 40, ScreenSize.Height / 2 + 40, string.Format("Score: {0}", player1.Score));
             spriteBatch.End();
         }
 
@@ -414,7 +428,11 @@ namespace Manic_Shooter
 
         private void InitPlayState()
         {
-
+            player1.ClearScore();
+            if (player1.Lives == 0)
+            {
+                new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+            }
         }
 
         private void InitMenuState()
