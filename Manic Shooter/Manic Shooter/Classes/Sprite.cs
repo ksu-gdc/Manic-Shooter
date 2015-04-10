@@ -17,6 +17,7 @@ namespace Manic_Shooter.Classes
         protected float hitboxRadius;
         protected float hitboxHorizRatio;
         protected float hitboxVertRatio;
+        protected int randomDropChance;
 
         protected bool _hurtFlashing = false;
 
@@ -143,6 +144,7 @@ namespace Manic_Shooter.Classes
             this.HitBoxVertRatio = 0;
             this.HitBoxRadius = texture.Width / 2;
             this.SpriteTint = Color.White;
+            this.randomDropChance = 25;
         }
 
         /// <summary>

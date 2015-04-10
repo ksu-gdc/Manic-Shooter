@@ -218,10 +218,15 @@ namespace Manic_Shooter.Classes
             base.Destroy();
             //Spawn a default droppable
 
-            PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
-                TextureManager.Instance.GetTexture("MissileDroppable"),
-                this.Position);
-            ResourceManager.Instance.AddDroppable(drop);
+            int dropChance = ManicShooter.RNG.Next(100) + 1;
+
+            if (dropChance <= this.randomDropChance)
+            {
+                PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
+                    TextureManager.Instance.GetTexture("MissileDroppable"),
+                    this.Position);
+                ResourceManager.Instance.AddDroppable(drop);
+            }
         }
     }
 }
