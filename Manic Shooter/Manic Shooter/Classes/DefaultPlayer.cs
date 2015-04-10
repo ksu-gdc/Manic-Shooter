@@ -137,6 +137,14 @@ namespace Manic_Shooter.Classes
             }
         }
 
+        public void ResetGuns()
+        {
+            _currentGunUpgrade = GunUpgradeState.None;
+            UpgradeGun(typeof(PelletGun));
+            _currentMissileUpgrade = MissileUpgradeState.None;
+            _weapons.RemoveAll(x => x.GetType() == typeof(MissileLauncher));
+        }
+
         public DefaultPlayer(Texture2D texture, Vector2 position)
             : base(texture, position)
         {
@@ -249,9 +257,12 @@ namespace Manic_Shooter.Classes
 
         public void Fire()
         {
-            foreach (IWeapon weapon in _weapons)
+            if (this.pstate == PlayerState.Normal)
             {
-                weapon.Fire();
+                foreach (IWeapon weapon in _weapons)
+                {
+                    weapon.Fire();
+                }
             }
         }
 
@@ -383,6 +394,7 @@ namespace Manic_Shooter.Classes
                 lives--;
                 this.Health = this.MaxHealth;
                 pstate = PlayerState.Dead;
+                ResetGuns();
             }
         }
 
