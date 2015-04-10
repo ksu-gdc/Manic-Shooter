@@ -387,6 +387,24 @@ namespace Manic_Shooter
             }
         }
 
+        public void ResetAll()
+        {
+            foreach (IPlayer player in playerList)
+                player.IsActive = false;
+
+            foreach (IEnemy enemy in enemyList)
+                enemy.IsActive = false;
+
+            foreach (IProjectile projectile in projectileList)
+                projectile.IsActive = false;
+
+            foreach (IDroppable droppable in droppableList)
+                droppable.IsActive = false;
+
+            foreach (IRenderable render in renderList)
+                render.IsActive = false;
+        }
+
         private ResourceManager()
         {
             playerList = new List<IPlayer>();

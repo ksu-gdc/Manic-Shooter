@@ -119,7 +119,7 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
 
-            song = Content.Load<Song>("597237_Lets-Fight-Loop.xnb");
+            song = Content.Load<Song>("597237_Lets-Fight-Loop");
 
             titleTexture = Content.Load<Texture2D>("title.png");
             menuSelectionTexture = TextureManager.Instance.GetTexture("DefaultPlayer");
@@ -384,7 +384,23 @@ namespace Manic_Shooter
             {
                 if (isPaused)
                 {
-                    MediaPlayer.Resume();
+                    try
+                    {
+                        MediaPlayer.Resume();
+                    }
+                    catch
+                    {
+
+                        MediaPlayer.Stop();
+                        try
+                        {
+                            MediaPlayer.Play(song);
+                        }
+                        catch
+                        {
+                            MediaPlayer.Play(song);
+                        }
+                    }
                 }
                 else
                 {
@@ -446,9 +462,22 @@ namespace Manic_Shooter
             player1.ClearScore();
             if (player1.Lives == 0)
             {
-                new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+                player1 = new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+                ResourceManager.Instance.AddPlayer(player1);
+
+                player1.ScaleSize((decimal)0.5);
+
+                MobSpawner.Instance.Reset();
+                MobSpawner.Instance.SetSpawnerMode(SpawnerMode.Constant);
             }
-            MediaPlayer.Play(song);
+            try
+            {
+                MediaPlayer.Play(song);
+            }
+            catch
+            {
+                MediaPlayer.Play(song);
+            }
             MediaPlayer.IsRepeating = true;
         }
 
@@ -469,6 +498,8 @@ namespace Manic_Shooter
             gameOverTimer.Start();
 
             MediaPlayer.Stop();
+
+            ResourceManager.Instance.ResetAll();
         }
 
         private void gameOverTimer_Elapsed(object sender, ElapsedEventArgs e)
