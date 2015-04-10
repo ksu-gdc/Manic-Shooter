@@ -37,6 +37,7 @@ namespace Manic_Shooter
 
         Texture2D titleTexture;
         Texture2D menuSelectionTexture;
+        Texture2D backgroundTexture;
 
         GameTime inGameTotalTime;
 
@@ -118,7 +119,9 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("ScoreDroppable", Content.Load<Texture2D>("scoreUpgrade.png"));
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
+            TextureManager.Instance.AddTexture("Background", Content.Load<Texture2D>("bg.png"));
 
+            backgroundTexture = TextureManager.Instance.GetTexture("Background");
             song = Content.Load<Song>("597237_Lets-Fight-Loop");
 
             titleTexture = Content.Load<Texture2D>("title.png");
@@ -334,6 +337,8 @@ namespace Manic_Shooter
         {
             spriteBatch.Begin();
 
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+
             //fontRenderer.DrawText(spriteBatch, 50, 50, "Hello World!\nGame Time\t=\t" + inGameTotalTime.ElapsedGameTime.ToString());
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
@@ -349,6 +354,8 @@ namespace Manic_Shooter
         private void DrawMenu(GameTime gameTime)
         {
             spriteBatch.Begin();
+
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 
             if (this.MenuState == MenuStates.Main)
             {
@@ -373,6 +380,7 @@ namespace Manic_Shooter
         private void DrawGameOver(GameTime gameTime)
         {
             spriteBatch.Begin();
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
             fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 50, ScreenSize.Height / 2 - 10, "Game Over");
             fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 40, ScreenSize.Height / 2 + 40, string.Format("Score: {0}", player1.Score));
             spriteBatch.End();
