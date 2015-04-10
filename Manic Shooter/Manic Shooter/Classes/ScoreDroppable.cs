@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Manic_Shooter.Classes
 {
-    class MissileUpgradeDroppable:DefaultDroppable
+    class ScoreDroppable:DefaultDroppable
     {
         public float downwardAccel = 100;
         public float maxSpeed = 230;
 
-        public MissileUpgradeDroppable(Texture2D texture, Vector2 position)
+        public ScoreDroppable(Texture2D texture, Vector2 position)
             : base(texture, position)
         {
             this.Velocity = Vector2.Zero;
@@ -50,7 +50,7 @@ namespace Manic_Shooter.Classes
             //For now default to upgrading pellet gun
             //We can fix the code later
             DefaultPlayer dPlayer = (DefaultPlayer)player;
-            dPlayer.UpgradeGun(typeof(MissileLauncher));
+            dPlayer.AddScore(50);
         }
     }
 }

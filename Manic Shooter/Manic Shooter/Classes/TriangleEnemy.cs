@@ -204,8 +204,15 @@ namespace Manic_Shooter.Classes
 
             if (dropChance <= this.randomDropChance)
             {
-                PelletUpgradeDroppable drop = new PelletUpgradeDroppable(
-                    TextureManager.Instance.GetTexture("DefaultProjectile"),
+                MissileUpgradeDroppable drop = new MissileUpgradeDroppable(
+                    TextureManager.Instance.GetTexture("MissileDroppable"),
+                    this.Position);
+                ResourceManager.Instance.AddDroppable(drop);
+            }
+            else
+            {
+                ScoreDroppable drop = new ScoreDroppable(
+                    TextureManager.Instance.GetTexture("ScoreDroppable"),
                     this.Position);
                 ResourceManager.Instance.AddDroppable(drop);
             }

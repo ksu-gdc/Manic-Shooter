@@ -115,7 +115,8 @@ namespace Manic_Shooter.Classes
         {
             if(_target == null || !_target.IsActive)
             {
-                _target = null;
+                //Find new lockon
+                LockOnToEnemy();
                 return;
             }
             //Calculate angle

@@ -105,7 +105,10 @@ namespace Manic_Shooter
             TextureManager.Instance.AddTexture("DefaultEnemy", Content.Load<Texture2D>("newEnemy1.png"));
             TextureManager.Instance.AddTexture("TriangleEnemy", Content.Load<Texture2D>("newEnemy3.png"));
             TextureManager.Instance.AddTexture("DefaultProjectile", Content.Load<Texture2D>("bulletFull.png"));
-            TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("bullet1.png"));
+            TextureManager.Instance.AddTexture("PlayerProjectile", Content.Load<Texture2D>("playerBulletFull.png"));
+            TextureManager.Instance.AddTexture("MissileDroppable", Content.Load<Texture2D>("missileUpgrade.png"));
+            TextureManager.Instance.AddTexture("GunDroppable", Content.Load<Texture2D>("gunUpgrade.png"));
+            TextureManager.Instance.AddTexture("ScoreDroppable", Content.Load<Texture2D>("scoreUpgrade.png"));
             TextureManager.Instance.AddTexture("DefaultMissile", Content.Load<Texture2D>("missileFull.png"));
             TextureManager.Instance.AddTexture("HunterEnemy", Content.Load<Texture2D>("newEnemy2.png"));
 
@@ -323,9 +326,10 @@ namespace Manic_Shooter
             ResourceManager.Instance.RenderSprites(spriteBatch);
 
             fontRenderer.DrawText(spriteBatch, 20, 20, "Lives = " + player1.Lives);
+            fontRenderer.DrawText(spriteBatch, ScreenSize.Width / 2 - 80, 20, "Score = " + player1.Score);
             fontRenderer.DrawText(spriteBatch, ScreenSize.Width - 150, 20, "Health = " + player1.Health + "/" + player1.MaxHealth);
             if(isPaused)
-                fontRenderer.DrawText(spriteBatch, 200, 200, "Pawsed :3");
+                fontRenderer.DrawText(spriteBatch, 200, 200, "Pause");
 
             spriteBatch.End();
         }
@@ -414,7 +418,11 @@ namespace Manic_Shooter
 
         private void InitPlayState()
         {
-
+            player1.ClearScore();
+            if (player1.Lives == 0)
+            {
+                new DefaultPlayer(TextureManager.Instance.GetTexture("DefaultPlayer"), new Vector2(300, 300));
+            }
         }
 
         private void InitMenuState()

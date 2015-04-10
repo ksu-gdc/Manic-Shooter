@@ -55,6 +55,12 @@ namespace Manic_Shooter.Classes
             get { return this.lives; }
         }
 
+        public int Score
+        {
+            get;
+            private set;
+        }
+
         private List<IWeapon> _weapons;
         private bool _shootWeapon;
 
@@ -403,6 +409,16 @@ namespace Manic_Shooter.Classes
             {
                 w.SetReferencePosition(this.centerPosition);
             }
+        }
+
+        public void AddScore(int additionalPoints)
+        {
+            this.Score += additionalPoints;
+        }
+
+        public void ClearScore()
+        {
+            this.Score = 0;
         }
     }
 }
